@@ -6,6 +6,10 @@ from statistics import multimode
 from statistics import mode
 import itertools
 
+""" 
+    This file contains all the helper functions needed to calculate the burst variables 
+    and inter-reward interval variables.
+"""
 
 def cleanup(filepath):
     """ This function is used to cleanup the excel output file for further analysis
