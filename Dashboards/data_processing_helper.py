@@ -50,17 +50,3 @@ def cleanup(filepath):
     print('CLEANING COMPLETED')
     # output the result dataframe
     return df
-
-
-# return a df that contains reward latency, all rewards, intervals, and cleaned intervals
-def filtered_reward(df):
-    filtered_cols = ['Subject'] + [col for col in df.columns if 'Reward ' in col]
-    df_reward = df[filtered_cols].sort_values('Subject').reset_index().drop('index',axis=1)
-    df_reward['allRewards'] = df_reward.iloc[:,1:].values.tolist()
-    df_reward['Latency'] = df_reward['Reward 1']
-    df_filtered = df_reward[['Subject', 'Latency', 'allRewards']]
-    df_filtered['Intervals'] = df_filtered['allRewards'].apply(lambda lst:[j-i for i, j in zip(lst[:-1], lst[1:])])
-    df_filtered['cleanedIntervals'] = df_filtered['Intervals'].apply(lambda lst: [val for val in lst if val > 0][:-1])
-    
-    return df_filtered
-
