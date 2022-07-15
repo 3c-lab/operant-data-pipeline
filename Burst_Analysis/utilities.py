@@ -5,6 +5,7 @@ warnings.filterwarnings('ignore')
 from statistics import multimode
 from statistics import mode
 import itertools
+from openpyxl import load_workbook
 
 """ 
     This file contains all the helper functions needed to calculate the burst variables 
@@ -161,7 +162,7 @@ def get_max_burst(lst):
 
 
 def calculations_single(df):
-    """ This function returns the dataframe of all the calculated variables
+    """ This function returns the dataframe of all the calculated variables (original version)
 
     Args:
         df (_type_): pd.DataFrame
@@ -208,3 +209,16 @@ def calculations_single(df):
     dff_out = dff[output_cols]
     
     return dff_out
+
+
+    def get_sheetnames_xlsx(file_name):
+        """This function returns the worksheet names from an given Excel workbook
+
+        Args:
+            file_name (_type_): str
+
+        Returns:
+            _type_: list of strings
+        """
+        wb = load_workbook(file_name, read_only=True, keep_links=False)
+        return wb.sheetnames
