@@ -222,3 +222,23 @@ def get_sheetnames_xlsx(file_name):
     """
     wb = load_workbook(file_name, read_only=True, keep_links=False)
     return wb.sheetnames
+
+
+def filtered_reward(df):
+    """This function returns a df that contains reward latency, all rewards, intervals, and cleaned intervals
+
+    Args:
+        df (_type_): pd.DataFrame
+
+    Returns:
+        _type_: pd.DataFrame
+    """
+    filtered_cols = ['Subject'] + [col for col in df.columns if 'Reward ' in col]
+    df_reward = df[filtered_cols].sort_values('Subject').reset_index().drop('index',axis=1)
+    df_reward['allRewards'] = df_reward.iloc[:,1:].values.tolist()
+    df_reward['Latency'] = df_reward['Reward 1']
+    df_filtered = df_reward[['Subject', 'Latency', 'allRewards']]
+    df_filtered['Intervals'] = df_filtered['allRewards'].apply(lambda lst:[j-i for i, j in zip(lst[:-1], lst[1:])])
+    df_filtered['cleanedIntervals'] = df_filtered['Intervals'].apply(lambda lst: [val for val in lst if val > 0][:-1])
+    
+    return df_filtered
