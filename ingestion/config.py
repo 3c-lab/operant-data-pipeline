@@ -14,19 +14,24 @@ cocaine_characteristics_list = [
 
 ]
 
+'''
+    - col_name refers name
+    - Collection refers to value
+    - Date refers to date_measured
+    - By refers to technician
+    - counts refers to measure_number
+'''
+
 cocaine_measurements_list = [
-    {'measurement_name': 'feces', 'measurement_col_name': 'Feces', 'measurement_counts': 4, 'measurement_col_suffix': ['Collection', 'Date']},
-    {'measurement_name': 'female_swap', 'measurement_col_name': 'Female Swab', 'measurement_counts': 3, 'measurement_col_suffix': ['By', 'Date']},
-    {'measurement_name': 'irritability', 'measurement_col_name': 'Irritability', 'measurement_counts': 2, 'measurement_col_suffix': ['By', 'Date']},
-    {'measurement_name': 'progressive_ratio', 'measurement_col_name': 'Progressive Ratio', 'measurement_counts': 3, 'measurement_col_suffix': ['Date']},
-    {'measurement_name': 'shock_1', 'measurement_col_name': 'Shock (0.1mA)', 'measurement_counts': 1, 'measurement_col_suffix': ['Date']},
-    {'measurement_name': 'shock_2', 'measurement_col_name': 'Shock (0.2mA)', 'measurement_counts': 1, 'measurement_col_suffix': ['Date']},
-    {'measurement_name': 'shock_3', 'measurement_col_name': 'Shock (0.3mA)', 'measurement_counts': 1, 'measurement_col_suffix': ['Date']},
-    {'measurement_name': 'urine', 'measurement_col_name': 'Urine', 'measurement_counts': 1, 'measurement_col_suffix': ['Collection', 'Date']},
-    {'measurement_name': 'weight', 'measurement_col_name': 'Weight', 'measurement_counts': 1, 'measurement_col_suffix': ['Date']},
-    {'measurement_name': '', 'measurement_col_name': '', 'measurement_counts': 1, 'measurement_col_suffix': ['']},
-    {'measurement_name': '', 'measurement_col_name': '', 'measurement_counts': 1, 'measurement_col_suffix': ['']},
-    {'measurement_name': '', 'measurement_col_name': '', 'measurement_counts': 1, 'measurement_col_suffix': ['']},
+    {'measurement_name': 'feces', 'col_name': 'Feces', 'counts': 4, 'col_suffix': ['Collection', 'Date']},
+    {'measurement_name': 'female_swap', 'col_name': 'Female Swab', 'counts': 3, 'col_suffix': ['By', 'Date']},
+    {'measurement_name': 'irritability', 'col_name': 'Irritability', 'counts': 2, 'col_suffix': ['By', 'Date']},
+    {'measurement_name': 'progressive_ratio', 'col_name': 'Progressive Ratio', 'counts': 3, 'col_suffix': ['Date']},
+    {'measurement_name': 'shock_1', 'col_name': 'Shock (0.1mA)', 'counts': 1, 'col_suffix': ['Date']},
+    {'measurement_name': 'shock_2', 'col_name': 'Shock (0.2mA)', 'counts': 1, 'col_suffix': ['Date']},
+    {'measurement_name': 'shock_3', 'col_name': 'Shock (0.3mA)', 'counts': 1, 'col_suffix': ['Date']},
+    {'measurement_name': 'urine', 'col_name': 'Urine', 'counts': 1, 'col_suffix': ['Collection', 'Date']},
+    {'measurement_name': 'weight', 'col_name': 'Weight', 'counts': 1, 'col_suffix': ['Date']}
 ]
 
 oxycodone_characteristics_list = [
@@ -34,9 +39,7 @@ oxycodone_characteristics_list = [
 ]
 
 oxycodone_measurements_list = [
-    {},
-    {},
-    {}
+
 ]
 
 

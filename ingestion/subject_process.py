@@ -12,7 +12,7 @@ class Subject:
             Measurements are repeated (numbered) values
         '''
         self.characteristics = {}
-        self.measurements = {}
+        self.measurements = []
         self.subject_row = subject_row
 
     def process_characteristics(self):
@@ -87,6 +87,36 @@ class Subject:
         # print([(value, type(value)) for kev, value in sorted(self.characteristics.items())])
 
     def process_measurements(self):
+        for measurement_dict in config.cocaine_characteristics_list:
+    
+            counts = measurement_dict['counts']
+            suffixes = measurement_dict['col_suffix']
+
+            # Loop through each count of the measurement
+            for i in range(1, counts+1):
+
+                # Use default dict as we will need all access all values to insert into database
+                insert_dict = defaultdict(None)
+                name = measurement_dict['measurement_name']
+                current_number = i
+
+                insert_dict['name'] = name
+                insert_dict['measure_number'] = current_number
+                
+                for suffix in suffixes:
+                    # This is used to query for the value of a specific column referencing a measurement value for the current subject (row)
+                    col_name = ' '.join([name, current_number, suffix])
+
+                    if suffix == 'Collection':
+                        insert_dict['value'] = self.subject_row[col_name]
+                    elif suffix == 'By':
+                        insert_dict['technician'] = self.subject_row[col_name]
+                    elif suffix == 'Date':
+                        insert_dict['date_measurement'] = self.subject_row[col_name]
+
+                self.measurements.append(insert_dict)
+
+
 
         return 
 
