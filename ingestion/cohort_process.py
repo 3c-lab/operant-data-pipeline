@@ -2,6 +2,7 @@ import config
 import os
 import pandas as pd
 import psycopg2
+from pipeline import Pipeline
 from subject_process import Subject
 
 class CohortProcess:
@@ -40,19 +41,10 @@ class CohortProcess:
             self.insert_subject(subject)
         return
 
+
+
 def main():
-
-    try:
-        conn = psycopg2.connect(user=config.DATABASE_USERNAME,
-                                password=config.DATABASE_PASSWORD,
-                                host=config.DATABASE_HOST,
-                                port=config.DATABASE_PORT,
-                                database=config.DATABASE_NAME
-                                )
-        cursor = conn.cursor()
-    except Exception as error:
-        print(f'Cannot connect to DB due to "{error}" error')
-
+    conn, cur = Pipeline.connect_db()
     process_7 = CohortProcess(config.COCAINE_COHORT_07)
     process_7.insert_cohort()
 
