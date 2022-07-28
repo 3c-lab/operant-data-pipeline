@@ -1,6 +1,7 @@
-import pandas as pd
-import os
 import config
+import os
+import pandas as pd
+import psycopg2
 from subject_process import Subject
 
 class CohortProcess:
@@ -17,9 +18,18 @@ class CohortProcess:
             into datetime objects for easier processing into the database
         '''
         df = pd.read_excel(self.excel_filepath)
+        df.columns = (df.columns.str.replace(u'\xa0', u'')).str.strip()
         list_date_cols = [col for col in df.columns if 'date' in col.lower()]
         df[list_date_cols] = df[list_date_cols].apply(pd.to_datetime, errors='coerce')
         return df
+
+    def insert_subject(self, subject: Subject):
+        subject.process_characteristics()
+        subject.process_measurements()
+        subject.insert_characteristics()
+        # subject.insert_measurements()
+
+
 
     def insert_cohort(self):
         '''
@@ -27,12 +37,25 @@ class CohortProcess:
         '''
         for index, subject_row in self.df[0:1].iterrows():
             subject = Subject(subject_row)
-            subject.process_characteristics()
-            sql_string = subject.construct_charactersitic_sql_string()
+            self.insert_subject(subject)
         return
 
 def main():
-    process_17 = CohortProcess(config.COCAINE_COHORT_07)
+
+    try:
+        conn = psycopg2.connect(user=config.DATABASE_USERNAME,
+                                password=config.DATABASE_PASSWORD,
+                                host=config.DATABASE_HOST,
+                                port=config.DATABASE_PORT,
+                                database=config.DATABASE_NAME
+                                )
+        cursor = conn.cursor()
+    except Exception as error:
+        print(f'Cannot connect to DB due to "{error}" error')
+
+    process_7 = CohortProcess(config.COCAINE_COHORT_07)
+    process_7.insert_cohort()
+
 
 if __name__ == '__main__':
     main()
