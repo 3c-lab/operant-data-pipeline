@@ -16,10 +16,10 @@ def cleanup(filepath):
     """ This function is used to cleanup the excel output file for further analysis
 
     Args:
-        filepath (_type_): str
+        filepath (_str_): the filename of the raw excel output file
 
     Returns:
-        _type_: pd.DataFrame
+        _pd.DataFrame_: a cleaned dataframe
     """
     #print(filepath)
     # import data and transpose
@@ -165,14 +165,14 @@ def calculations_single(df):
     """ This function returns the dataframe of all the calculated variables (original version)
 
     Args:
-        df (_type_): pd.DataFrame
+        df (_type_): pd.DataFrame, cleaned dataframe processed in the cleanup function
 
     Returns:
         _type_: pd.DataFrame
     """
     # combine all reward timestamp into a column of lists
     filtered_cols = ['Subject'] + [col for col in df.columns if 'Reward ' in col]
-    df_reward = df[filtered_cols].sort_values('Subject').reset_index().drop('index',axis=1)
+    df_reward = df[filtered_cols][df.Subject!=0].sort_values('Subject').reset_index().drop('index',axis=1)
     df_reward['allRewards'] = df_reward.iloc[:,1:].values.tolist()
 
     # get the filtered df
@@ -222,3 +222,78 @@ def get_sheetnames_xlsx(file_name):
     """
     wb = load_workbook(file_name, read_only=True, keep_links=False)
     return wb.sheetnames
+
+
+def one_calculation(file_name, sheet_name, rats):
+    """ This function returns the dataframe of all the calculated variables (VK version)
+
+    Args:
+        file_name (_str_): the name of the excel workbook
+        sheet_name (_str_): 1 sheetname from all sheetnames within the chosen workbook
+        rats (_str_): all the rats in the chosen cohort 
+
+    Returns:
+        _type_: pd.DataFrame
+    """
+    # read excel sheet
+    df = pd.read_excel(file_name, sheet_name=sheet_name).T
+    
+    # reset header
+    new_header = df.iloc[0]
+    df = df[1:]
+    df.columns = new_header
+
+    # filter rows and columns
+    rats = list(set(rats) & set(list(df.index))) # get the intersection
+    df = df.loc[rats]
+    col_reward = [col for col in df.columns if 'V' in col] # V for reward timestamp
+    df = df[col_reward]
+
+    # drop zeros
+    df.replace(0, np.NaN, inplace=True)
+    df.dropna(how='all', axis=1, inplace=True)
+    df.replace(np.NaN, 0, inplace=True)
+    df.reset_index(inplace=True)
+    
+    # group all rewards
+    df['allRewards'] = df.iloc[:,1:].values.tolist()
+    
+    # get the filtered df
+    dff = df[['index','allRewards']]
+    
+    # retrieve the inter-reward intervals, filtering out negatives
+    dff['Intervals'] = dff['allRewards'].apply(lambda lst:[j-i for i, j in zip(lst[:-1], lst[1:])])
+    dff['cleanedIntervals'] = dff['Intervals'].apply(lambda lst: [val for val in lst if val > 0])
+    
+    # calculate needed traits related to the inter-reward intervals
+    dff['meanInterval'] = dff['cleanedIntervals'].apply(lambda x: round(np.mean(x), 2))
+    dff['stdInterval'] = dff['cleanedIntervals'].apply(lambda x: round(np.std(x), 2))
+    dff['modeInterval'] = dff['cleanedIntervals'].apply(get_mode)
+    
+    # filtering the rewards (zero values)
+    dff['cleanedRewards'] = dff['allRewards'].apply(lambda lst: [val for val in lst if val > 0])
+    dff['totalRewards'] = dff['cleanedRewards'].apply(lambda x: len(x))
+    
+    # retrieve the "bursts" (cluster of rewards happened within 2 mins) from rewards 
+    dff['rawBurst'] = dff['cleanedRewards'].apply(get_bursts)
+    dff['numBurst'] = dff['rawBurst'].apply(lambda x: len([i for i in x if len(i)>1]))
+    
+    # get the mean number of rewards across all the bursts
+    dff['meanNumRewards'] = dff['rawBurst'].apply(get_mean_num_rewards)
+    # get the percentage of rewards that fall in burst out of all the rewards
+    dff['pctRewards'] = dff['rawBurst'].apply(get_burst_rewards_pct)
+    # get the maximum number of rewards contain in a single burst in one session
+    dff['maxBurst'] = dff['rawBurst'].apply(get_max_burst)
+    
+    # select needed columns for output df
+    output_cols = ['index', 'meanInterval', 'stdInterval', 'modeInterval','meanNumRewards', 'numBurst', 'maxBurst', 'pctRewards']
+    dff_out = dff[output_cols]
+    
+    # rename one column
+    dff_out.rename(columns={"index": "subject"},inplace=True)
+    
+    # add trial id
+    trial_id = re.findall(r'((?:SHA|LGA)[0-9]+)',sheet_name.upper())[0]
+    dff_out['trial_id'] = [trial_id] * len(dff_out)
+    
+    return dff_out
