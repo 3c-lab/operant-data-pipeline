@@ -1,7 +1,10 @@
 import config
 import psycopg2
 
-class Pipeline:
+class Pipeline(object):
+
+    def __init__(self):
+        self.conn, self.cur = self.connect_db()
 
     @staticmethod
     def connect_db():        
@@ -13,9 +16,9 @@ class Pipeline:
                                     database=config.DATABASE_NAME,
                                     options=f'-c search_path={config.DATABASE_SCHEMA}'
                                     )
-            curr = conn.cursor()
+            cur = conn.cursor()
         
         except Exception as error:
             print(f'Cannot connect to DB due to "{error}" error')
 
-        return (conn, curr)
+        return (conn, cur)

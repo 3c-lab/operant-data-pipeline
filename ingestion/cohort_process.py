@@ -18,7 +18,8 @@ class CohortProcess:
             Function to load in the excel file and convert all columns with 'date' in the column name 
             into datetime objects for easier processing into the database
         '''
-        df = pd.read_excel(self.excel_filepath)
+        df = pd.read_excel(self.excel_filepath)[0:70]
+        df['RFID'] = df['RFID'].astype(int)
         df.columns = (df.columns.str.replace(u'\xa0', u'')).str.strip()
         list_date_cols = [col for col in df.columns if 'date' in col.lower()]
         df[list_date_cols] = df[list_date_cols].apply(pd.to_datetime, errors='coerce')
@@ -44,9 +45,13 @@ class CohortProcess:
 
 
 def main():
-    conn, cur = Pipeline.connect_db()
     process_7 = CohortProcess(config.COCAINE_COHORT_07)
-    process_7.insert_cohort()
+    # N/A and empty cell both return NaT value
+    print(process_7.df['Date Excluded'])
+    print(process_7.df['Date of Eye Bleed'])
+    print(process_7.df['Exclude Reason'])
+
+    # process_7.insert_cohort()
 
 
 if __name__ == '__main__':

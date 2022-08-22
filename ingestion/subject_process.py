@@ -4,18 +4,19 @@ from collections import defaultdict
 from datetime import date, datetime
 from pipeline import Pipeline
 
-class Subject:
+class Subject(Pipeline):
 
     def __init__(self, subject_row):
         '''
             characteristics are only one value
             Measurements are repeated (numbered) values
         '''
-        self.rfid = subject_row['RFID']
-        self.characteristics = {}
+        self.rfid = int(subject_row['RFID'])
+        self.characteristics = defaultdict(lambda: None)
         self.measurements = []
         self.subject_row = subject_row
-        self.conn, self.cur = Pipeline.connect_db()
+        super().__init__()
+        # self.conn, self.cur = Pipeline.connect_db()
 
     def process_characteristics(self):
         '''
@@ -28,6 +29,9 @@ class Subject:
         for characteristic in config.cocaine_characteristics_list:
             if 'date' in characteristic.lower():
                 self.characteristics[characteristic] = self.format_date(self.subject_row[characteristic])
+            # Assign multiple values into list
+            elif any(technician_col in characteristic.lower() for technician_col in ['by', 'collection']):
+                self.characteristics[characteristic] = self.format_multiple_values_into_array(self.subject_row[characteristic])
             else:
                 self.characteristics[characteristic] = self.subject_row[characteristic]
 
@@ -53,7 +57,7 @@ class Subject:
                     # TODO: Strip is to account for columns whose value that are denoted by empty str instead of 'Value'
                     full_col_name = ' '.join([col_name, str(current_number), suffix]).strip()                    
 
-                    if suffix == '':
+                    if suffix == 'Value':
                         insert_dict['value'] = self.subject_row[full_col_name]
                     elif suffix == 'By' or suffix == 'Collection':
                         insert_dict['technician'] = self.subject_row[full_col_name]
@@ -74,9 +78,16 @@ class Subject:
         else:
             return datetime.strftime(date, "%m/%d/%Y %H:%M:%S")
 
+    def format_multiple_values_into_array(self, comma_separated_string: str):
+        '''
+            Formats csv values into insertable format
+        '''
+        css_formatted = ','.join([f'\"{value}\"' for value in comma_separated_string.split(',')])
+        return f'\'{{{css_formatted}}}\''
+
     def construct_characteristic_sql_string(self):
         values = ','.join(['%s'] * config.CHARACTERISTIC_TABLE_COLUMNS_COUNT)
-        sql_string = f"""INSERT INTO {config.CHARACTERISTIC_TABLE_NAME} VALUES ({values});""", tuple([value for key, value in self.characteristics.items()])
+        sql_string = f"""INSERT INTO {config.CHARACTERISTIC_TABLE_NAME} VALUES ({values});""", tuple([value for _, value in self.characteristics.items()])
         return sql_string
 
     def construct_measurement_sql_string(self, single_subject_measurement: defaultdict):
@@ -94,9 +105,6 @@ class Subject:
 
     def insert_characteristics(self):
         sql_string, sql_string_values = self.construct_characteristic_sql_string()
-        # print(sql_string)
-        # print(sql_string_values)
-        # print(len(sql_string_values))
         self.cur.execute(sql_string, sql_string_values)
         self.cur.execute(f"SELECT * FROM {config.CHARACTERISTIC_TABLE_NAME};")
         print(self.cur.fetchone())
