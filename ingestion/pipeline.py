@@ -1,5 +1,5 @@
-import config
 import psycopg2
+from config import *
 
 class Pipeline(object):
 
@@ -9,12 +9,12 @@ class Pipeline(object):
     @staticmethod
     def connect_db():        
         try:
-            conn = psycopg2.connect(user=config.DATABASE_USERNAME,
-                                    password=config.DATABASE_PASSWORD,
-                                    host=config.DATABASE_HOST,
-                                    port=config.DATABASE_PORT,
-                                    database=config.DATABASE_NAME,
-                                    options=f'-c search_path={config.DATABASE_SCHEMA}'
+            conn = psycopg2.connect(user=DATABASE_USERNAME,
+                                    password=DATABASE_PASSWORD,
+                                    host=DATABASE_HOST,
+                                    port=DATABASE_PORT,
+                                    database=DATABASE_NAME,
+                                    options=f'-c search_path={DATABASE_SCHEMA}'
                                     )
             cur = conn.cursor()
         

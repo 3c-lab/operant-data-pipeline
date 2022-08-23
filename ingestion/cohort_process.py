@@ -1,9 +1,9 @@
-import config
 import os
 import pandas as pd
 import psycopg2
+from config import *
 from pipeline import Pipeline
-from subject_process import Subject
+from subject import Subject
 
 class CohortProcess:
 
@@ -23,11 +23,12 @@ class CohortProcess:
         df.columns = (df.columns.str.replace(u'\xa0', u'')).str.strip()
         list_date_cols = [col for col in df.columns if 'date' in col.lower()]
         df[list_date_cols] = df[list_date_cols].apply(pd.to_datetime, errors='coerce')
+        df.columns = df.columns.str.lower()
         return df
 
     def insert_subject(self, subject: Subject):
         subject.process_characteristics()
-        subject.process_measurements()
+        # subject.process_measurements()
         subject.insert_characteristics()
         # subject.insert_measurements()
 
@@ -45,13 +46,9 @@ class CohortProcess:
 
 
 def main():
-    process_7 = CohortProcess(config.COCAINE_COHORT_07)
+    process_7 = CohortProcess(COCAINE_COHORT_07)
     # N/A and empty cell both return NaT value
-    print(process_7.df['Date Excluded'])
-    print(process_7.df['Date of Eye Bleed'])
-    print(process_7.df['Exclude Reason'])
-
-    # process_7.insert_cohort()
+    process_7.insert_cohort()
 
 
 if __name__ == '__main__':

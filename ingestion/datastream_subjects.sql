@@ -1,15 +1,15 @@
 DROP TABLE IF EXISTS subject;
 
 CREATE TABLE subject (
-    rfid integer PRIMARY KEY,
+    rfid bigint PRIMARY KEY,
     rat VARCHAR (255),
     experiment_group VARCHAR (255),
     drug_group VARCHAR (255),
     sex VARCHAR (255),
     arrival_date DATE,
     age_at_arrival integer,
-    uv varchar (255)
-    brevital DATE,
+    uv varchar (255),
+    brevital varchar (255),
     brevital_date DATE,
     brevital_technicians text[],
     lga_15_date DATE,
