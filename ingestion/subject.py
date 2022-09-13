@@ -1,4 +1,6 @@
+import math
 import pandas as pd
+import numpy as np
 from config import *
 from collections import defaultdict
 from datetime import date, datetime
@@ -11,7 +13,7 @@ class Subject(Pipeline):
             characteristics are only one value
             Measurements are repeated (numbered) values
         '''
-        self.rfid = int(subject_row['rfid'])
+        # self.rfid = int(subject_row['rfid'])
         self.characteristics = defaultdict(lambda: None)
         self.measurements = []
         self.subject_row = subject_row
@@ -24,16 +26,17 @@ class Subject(Pipeline):
             that isn't a measurement
         '''
 
-        # TODO: Consider brevital_done_by to be in measurements as it could have multiple technicians
-        # TODO: Consider handled_by to be in measurements as it could have multiple technicians
         for characteristic in final_charactersitics_list:
-            # print(self.subject_row)
             
             characteristic_value = self.subject_row.get(characteristic, default=None)
-            if 'date' in characteristic.lower():
+            if 'date' in characteristic.lower() or 'exit day' in characteristic.lower():
                 self.characteristics[characteristic] = self.format_date(characteristic_value)
             # Assign multiple values into list
-            elif any(technician_col in characteristic.lower() for technician_col in ['by', 'collection']):
+            elif any(technician_col in characteristic.lower() for technician_col in ['collection']):
+                # Checking the format of each column with comma-separated values for error
+                # print(f'The characteristic is {characteristic}')
+                # print(f'Characteristics value is {characteristic_value}')
+                # print(f'Its type is {type(characteristic_value)}')
                 self.characteristics[characteristic] = self.format_multiple_values_into_array(characteristic_value)
             else:
                 self.characteristics[characteristic] = characteristic_value
@@ -87,7 +90,7 @@ class Subject(Pipeline):
         '''
             Formats csv values into insertable format
         '''
-        if not comma_separated_string:
+        if not comma_separated_string or comma_separated_string.lower() == 'nan':
             return None
 
         css_formatted = ','.join([f'\"{value}\"' for value in comma_separated_string.split(',')])
@@ -95,39 +98,26 @@ class Subject(Pipeline):
 
     def construct_characteristic_sql_string(self):
         values = ','.join(['%s'] * CHARACTERISTIC_TABLE_COLUMNS_COUNT)
-        sql_string = f"""INSERT INTO {CHARACTERISTIC_TABLE_NAME} VALUES ({values});""" 
-        sql_string_values = tuple([self.characteristics[key] for key in final_charactersitics_list])
-        return sql_string, sql_string_values
-
-    # def construct_measurement_sql_string(self, single_subject_measurement: defaultdict):
-        
-    #     values = ','.join(['%s'] * MEASUREMENT_TABLE_COLUMNS_COUNT)
-    #     rfid = self.rfid
-    #     name = single_subject_measurement['name']
-    #     value = single_subject_measurement['value']
-    #     measure_number = single_subject_measurement['measure_number']
-    #     date_measured = single_subject_measurement['date_measured']
-    #     technician = single_subject_measurement['technician']
-    #     sql_string = f"""INSERT INTO measurement VALUES ({values});"""
-    #     sql_string_values = tuple([rfid, name, measure_number, value, date_measured, technician])
+        sql_string = f"""INSERT INTO {CHARACTERISTIC_TABLE_NAME} VALUES ({values}) ON CONFLICT (rfid) DO NOTHING;""" 
+        sql_string_values = list([self.characteristics[key] for key in final_charactersitics_list])
+        for i in range(len(sql_string_values)):
+            if sql_string_values[i] is not None and isinstance(sql_string_values[i], float):
+                if math.isnan(sql_string_values[i]):
+                    sql_string_values[i] = None
         return sql_string, sql_string_values
 
     def insert_characteristics(self):
         sql_string, sql_string_values = self.construct_characteristic_sql_string()
-        print(sql_string)
-        print(sql_string_values)
-        print(len(sql_string_values))
+        # print(sql_string)
+        # print(sql_string_values)
+        # print(f'The value is {sql_string_values[-19]} with {type(sql_string_values[-19])}')
+        # print(f'The value is {sql_string_values[-18]} with {type(sql_string_values[-18])}')
+        # print(len(sql_string_values))
         self.cur.execute(sql_string, sql_string_values)
         self.cur.execute(f"SELECT * FROM {CHARACTERISTIC_TABLE_NAME};")
-        print(self.cur.fetchone())
-        print('Successfuly insert')
-        # self.conn.commit()
-        # self.cur.close()
+        self.conn.commit()
+        self.cur.close()
 
-
-    # def insert_measurements(self):
-    #     sql_string = self.construct_measurement_sql_string(self.measurements[0])
-    #     print(sql_string)
 
         
 
