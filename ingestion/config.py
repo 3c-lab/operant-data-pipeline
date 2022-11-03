@@ -19,6 +19,9 @@ TRIAL_SHOCK_TEST = ['/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHOCK/BSB273BC0
 TAIL_IMMERSION_PATH = '/Users/yunyihuang/Desktop/gl_data/Cleaned_Tail_Immersion'
 TAIL_IMMERSION_FILES = [os.path.join(TAIL_IMMERSION_PATH, i) for i in sorted(os.listdir(TAIL_IMMERSION_PATH)) if (i != '.DS_Store')]
 
+VON_FREY_PATH = '/Users/yunyihuang/Desktop/gl_data/Cleaned_Von_Frey'
+VON_FREY_FILES = [os.path.join(VON_FREY_PATH, i) for i in sorted(os.listdir(VON_FREY_PATH)) if (i != '.DS_Store')]
+
 DATABASE_HOST = "localhost"
 DATABASE_PORT = "1192"
 DATABASE_NAME = "testDS"
@@ -56,7 +59,20 @@ characteristics_TI = ['rfid', 'subject', 'cohort', 'sex', 'experiment_group', 'd
     'tail_immersion_1_date', 'tail_immersion_2_date','tail_immersion_3_date']
 
 # characteristics for VON FREY data
-characteristics_VF = []
+characteristics_VF = ['rfid', 'subject', 'cohort', 'sex', 'experiment_group', 'drug',
+                        'vf1_right_force_1', 'vf1_right_force_2', 'vf1_right_force_3',
+                        'vf1_right_force_avg', 'vf1_right_time_1', 'vf1_right_time_2',
+                        'vf1_right_time_3', 'vf1_right_avg', 'vf1_left_force_1',
+                        'vf1_left_force_2', 'vf1_left_force_3', 'vf1_left_force_avg',
+                        'vf1_left_time_1', 'vf1_left_time_2', 'vf1_left_time_3', 'vf1_left_avg',
+                        'von_frey_1_date', 'vf2_right_force_1', 'vf2_right_force_2',
+                        'vf2_right_force_3', 'vf2_right_force_avg', 'vf2_right_time_1',
+                        'vf2_right_time_2', 'vf2_right_time_3', 'vf2_right_avg',
+                        'vf2_left_force_1', 'vf2_left_force_2', 'vf2_left_force_3',
+                        'vf2_left_force_avg', 'vf2_left_time_1', 'vf2_left_time_2',
+                        'vf2_left_time_3', 'vf2_left_avg', 'von_frey_2_date',
+                        'von_frey_1_force', 'von_frey_1_time', 'von_frey_2_force',
+                        'von_frey_2_time', 'von_frey_difference_force']
 
 integer_columns = ['rfid','cohort','box','active_lever_presses','inactive_lever_presses','reward_presses','timeout_presses',
                    'last_ratio', 'breakpoint', 'total_active_lever_presses', 'total_inactive_lever_presses',
