@@ -17,7 +17,6 @@ class Pipeline(object):
                                     options=f'-c search_path={DATABASE_SCHEMA}'
                                     )
             cur = conn.cursor()
-        
         except Exception as error:
             print(f'Cannot connect to DB due to "{error}" error')
 
