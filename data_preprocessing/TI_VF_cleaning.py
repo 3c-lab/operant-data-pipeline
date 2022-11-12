@@ -25,8 +25,6 @@ for i in tqdm(range(len(files))):
     # rename columns
     res.rename(columns=str.lower,inplace=True)
     res.columns = res.columns.str.replace(' ','_')
-    # (need to change later) for null rfid
-    res['rfid'] = res['rfid'].fillna(-999)
     res.to_csv(os.path.join(output_path, files[i].split('.')[0] + '.csv'))
 
 
@@ -56,6 +54,5 @@ for i in tqdm(range(len(files))):
         if ('date' in col) and res[col].dtype != '<M8[ns]':
             res[col] = res[col].apply(lambda x: parse_date(x))
     
-    res['rfid'] = res['rfid'].fillna(-999)
     res.to_csv(os.path.join(output_path, files[i].split('.')[0] + '.csv'))
     

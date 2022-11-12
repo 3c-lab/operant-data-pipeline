@@ -15,5 +15,5 @@ CREATE TABLE tail_immersion (
     tail_immersion_2_date               date,
     tail_immersion_3_date               date,
     constraint tail_immersion_pk
-        primary key (rfid, cohort, experiment_group)
+        primary key (rfid)
 )

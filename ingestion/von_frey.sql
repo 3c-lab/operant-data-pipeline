@@ -47,5 +47,5 @@ CREATE TABLE von_frey (
     von_frey_2_time             float,
     von_frey_difference_force   float,
     constraint von_frey_pk
-        primary key (rfid, cohort, experiment_group)
+        primary key (rfid, subject, cohort, experiment_group)
 )
