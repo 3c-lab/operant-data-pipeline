@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS trial_lga;
 DROP TABLE IF EXISTS trial_sha;
 DROP TABLE IF EXISTS trial_pr;
 DROP TABLE IF EXISTS trial_shock;
+DROP TABLE IF EXISTS trial_note;
 
 -- LGA for both COC and OXY (19 columns)
 create table trial_lga
@@ -100,4 +101,19 @@ CREATE TABLE trial_shock (
     reward_timestamps            text,
     constraint trial_shock_pk
         primary key (rfid, trial_id, drug)
+)
+
+-- NOTE for all daily issues of COCAINE and OXYCODONE
+CREATE TABLE trial_note (
+    rfid                 bigint,
+    subject              varchar(255),
+    cohort               integer,
+    sex                  varchar(255),
+    drug                 varchar(255),
+    experiment_group     varchar(255),
+    trial_id             varchar(255),
+    start_date           date,
+    code                 varchar(255),
+    to_do                varchar(255),
+    note                 text
 )

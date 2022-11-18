@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 dotenv_path = join(dirname(dirname(__file__)), '.env')
 load_dotenv(dotenv_path)
 
+# Test filenames
 TRIAL_LGA_TEST = ["/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_LGA/BSB273BC08HSLGA01_transformed.csv"]
 
 TRIAL_SHA_TEST = ['/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHA/BSB273BC08HSSHA02_transformed.csv',
@@ -16,12 +17,16 @@ TRIAL_PR_TEST = ['/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_PR/BSB273BC08HSPR0
 TRIAL_SHOCK_TEST = ['/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHOCK/BSB273BC08HSSHOCK_transformed.csv',
                     '/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHOCK/BSB273BC08HSSHOCK-1_transformed.csv']
 
+TRIAL_NOTE_PATH = '/Users/yunyihuang/Desktop/gl_data/Cleaned_Note'
+TRIAL_NOTE_FILES = [os.path.join(TRIAL_NOTE_PATH, i) for i in sorted(os.listdir(TRIAL_NOTE_PATH)) if (i != '.DS_Store')]
+
 TAIL_IMMERSION_PATH = '/Users/yunyihuang/Desktop/gl_data/Cleaned_Tail_Immersion'
 TAIL_IMMERSION_FILES = [os.path.join(TAIL_IMMERSION_PATH, i) for i in sorted(os.listdir(TAIL_IMMERSION_PATH)) if (i != '.DS_Store')]
 
 VON_FREY_PATH = '/Users/yunyihuang/Desktop/gl_data/Cleaned_Von_Frey'
 VON_FREY_FILES = [os.path.join(VON_FREY_PATH, i) for i in sorted(os.listdir(VON_FREY_PATH)) if (i != '.DS_Store')]
 
+# database information
 DATABASE_HOST = "localhost"
 DATABASE_PORT = "1192"
 DATABASE_NAME = "testDS"
@@ -33,6 +38,7 @@ TABLE_TRIAL_LGA = 'trial_lga'
 TABLE_TRIAL_SHA = 'trial_sha'
 TABLE_TRIAL_PR = 'trial_pr'
 TABLE_TRIAL_SHOCK = 'trial_shock'
+TABLE_TRIAL_NOTE = 'trial_note'
 TABLE_TAIL_IMMERSION = 'tail_immersion'
 TABLE_VON_FREY = 'von_frey'
 
@@ -52,6 +58,10 @@ characteristics_SHOCK = ['rfid', 'subject', 'room', 'cohort', 'trial_id', 'drug'
        'total_active_lever_presses', 'total_inactive_lever_presses',
        'total_shocks', 'total_reward', 'rewards_after_first_shock',
        'rewards_got_shock', 'reward_timestamps']
+
+# characteristics for TRIAL NOTE data 
+characteristics_NOTE = ['rfid', 'subject', 'cohort', 'sex', 'drug', 'experiment_group',
+       'trial_id', 'start_date', 'code', 'to_do', 'note']
 
 # characteristics for TAIL IMMERSION data
 characteristics_TI = ['rfid', 'subject', 'cohort', 'sex', 'experiment_group', 'drug', 'tail_immersion_1_time', 

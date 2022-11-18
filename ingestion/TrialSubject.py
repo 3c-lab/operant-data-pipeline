@@ -6,29 +6,32 @@ from ast import literal_eval
 
 class TrialSubject(Pipeline):
 
-    def __init__(self, subject_row, trial_id):
+    def __init__(self, subject_row, table_id):
         """initialize the subject and create a default dict for data
 
         Args:
             subject_row (_type_): a row of data
         """
         self.subject_row = subject_row
-        self.trial_id = trial_id
+        self.table_id = table_id
         self.characteristics = defaultdict(lambda: None)
         super().__init__()
 
-        if self.trial_id == "LGA":
+        if self.table_id == "LGA":
             self.final_charactersitics_list = characteristics_LGA_SHA
             self.table_to_insert = TABLE_TRIAL_LGA
-        if self.trial_id == "SHA":
+        if self.table_id == "SHA":
             self.final_charactersitics_list = characteristics_LGA_SHA
             self.table_to_insert = TABLE_TRIAL_SHA
-        if self.trial_id == "PR":
+        if self.table_id == "PR":
             self.final_charactersitics_list = characteristics_PR
             self.table_to_insert = TABLE_TRIAL_PR
-        if self.trial_id == "SHOCK":
+        if self.table_id == "SHOCK":
             self.final_charactersitics_list = characteristics_SHOCK
             self.table_to_insert = TABLE_TRIAL_SHOCK
+        if self.table_id == "NOTE":
+            self.final_charactersitics_list = characteristics_NOTE
+            self.table_to_insert = TABLE_TRIAL_NOTE
 
 
     def serialize_timestamps(self, string_of_timestamps):
@@ -91,7 +94,7 @@ class TrialSubject(Pipeline):
         """
         sql_string, sql_string_values = self.construct_characteristic_sql_string()
         #print(sql_string)
-        print(sql_string_values)
+        #print(sql_string_values)
         self.cur.execute(sql_string, sql_string_values)
         self.cur.execute(f"SELECT * FROM {self.table_to_insert};")
         self.conn.commit()
