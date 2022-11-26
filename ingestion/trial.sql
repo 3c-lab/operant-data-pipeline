@@ -53,7 +53,7 @@ create table trial_sha
     reward_timestamps      text,
     timeout_timestamps     text,
     constraint trial_sha_pk
-        primary key (rfid, trial_id, drug)
+        primary key (rfid, trial_id, drug, start_time)
 );
 
 -- PR for both COC and OXY (17 columns)
@@ -100,7 +100,7 @@ CREATE TABLE trial_shock (
     rewards_got_shock            text,
     reward_timestamps            text,
     constraint trial_shock_pk
-        primary key (rfid, trial_id, drug)
+        primary key (rfid, trial_id, drug, start_time)
 )
 
 -- NOTE for all daily issues of COCAINE and OXYCODONE

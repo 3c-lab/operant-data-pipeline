@@ -31,9 +31,9 @@ class TrialProcess:
 
 
 def main():
-    for file in TRIAL_NOTE_FILES:
+    for file in TRIAL_LGA_FILES[309:]:
         print(file)
-        trial = TrialProcess(file, 'NOTE')
+        trial = TrialProcess(file, 'LGA')
         trial.insert_trial()
 
 

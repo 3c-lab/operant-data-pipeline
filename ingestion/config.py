@@ -6,16 +6,36 @@ dotenv_path = join(dirname(dirname(__file__)), '.env')
 load_dotenv(dotenv_path)
 
 # Test filenames
+TRIAL_LGA_PATH_A = '/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_LGA'
+TRIAL_LGA_PATH_B = '/Users/yunyihuang/Desktop/gl_data/TRIAL/OXY_LGA'
 TRIAL_LGA_TEST = ["/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_LGA/BSB273BC08HSLGA01_transformed.csv"]
+TRIAL_LGA_FILES = (
+    #[os.path.join(TRIAL_LGA_PATH_A, i) for i in sorted(os.listdir(TRIAL_LGA_PATH_A)) if (i != '.DS_Store')] + 
+    [os.path.join(TRIAL_LGA_PATH_B, i) for i in sorted(os.listdir(TRIAL_LGA_PATH_B)) if (i != '.DS_Store')]
+)
 
+TRIAL_SHA_PATH_A = '/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHA'
+TRIAL_SHA_PATH_B = '/Users/yunyihuang/Desktop/gl_data/TRIAL/OXY_SHA'
 TRIAL_SHA_TEST = ['/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHA/BSB273BC08HSSHA02_transformed.csv',
                   '/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHA/BSB273BC08HSSHA03_transformed.csv',]
+TRIAL_SHA_FILES = (
+    [os.path.join(TRIAL_SHA_PATH_A, i) for i in sorted(os.listdir(TRIAL_SHA_PATH_A)) if (i != '.DS_Store')] + 
+    [os.path.join(TRIAL_SHA_PATH_B, i) for i in sorted(os.listdir(TRIAL_SHA_PATH_B)) if (i != '.DS_Store')]
+)
 
+TRIAL_PR_PATH_A = '/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_PR'
+TRIAL_PR_PATH_B = '/Users/yunyihuang/Desktop/gl_data/TRIAL/OXY_PR'
 TRIAL_PR_TEST = ['/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_PR/BSB273BC08HSPR01_transformed.csv',
                  '/Users/yunyihuang/Desktop/gl_data/TRIAL/OXY_PR/BSB273BC04HSOXYPR01_transformed.csv',]
+TRIAL_PR_FILES = (
+    [os.path.join(TRIAL_PR_PATH_A, i) for i in sorted(os.listdir(TRIAL_PR_PATH_A)) if (i != '.DS_Store')] + 
+    [os.path.join(TRIAL_PR_PATH_B, i) for i in sorted(os.listdir(TRIAL_PR_PATH_B)) if (i != '.DS_Store')]
+)
 
+TRIAL_SHOCK_PATH = '/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHOCK'
 TRIAL_SHOCK_TEST = ['/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHOCK/BSB273BC08HSSHOCK_transformed.csv',
                     '/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHOCK/BSB273BC08HSSHOCK-1_transformed.csv']
+TRIAL_SHOCK_FILES = [os.path.join(TRIAL_SHOCK_PATH, i) for i in sorted(os.listdir(TRIAL_SHOCK_PATH)) if (i != '.DS_Store')]
 
 TRIAL_NOTE_PATH = '/Users/yunyihuang/Desktop/gl_data/Cleaned_Note'
 TRIAL_NOTE_FILES = [os.path.join(TRIAL_NOTE_PATH, i) for i in sorted(os.listdir(TRIAL_NOTE_PATH)) if (i != '.DS_Store')]
