@@ -81,7 +81,7 @@ CREATE TABLE trial_pr (
 
 -- SHOCK for COC only (18 columns)
 CREATE TABLE trial_shock (
-    rfid                         varchar(255),
+    rfid                         bigint,
     subject                      varchar(255),
     room                         varchar(255),
     cohort                       integer,
