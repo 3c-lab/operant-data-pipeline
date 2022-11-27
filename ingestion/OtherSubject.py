@@ -3,19 +3,25 @@ from config import *
 from collections import defaultdict
 from pipeline import Pipeline
 
-class VonFreySubject(Pipeline):
+class OtherSubject(Pipeline):
 
-    def __init__(self, subject_row):
+    def __init__(self, subject_row, table_id):
         """initialize the subject and create a default dict for data
 
         Args:
             subject_row (_type_): a row of data
         """
         self.subject_row = subject_row
+        self.table_id = table_id
         self.characteristics = defaultdict(lambda: None)
-        self.final_charactersitics_list = characteristics_VF
-        self.table_to_insert = TABLE_VON_FREY
         super().__init__()
+
+        if self.table_id == "VF":
+            self.final_charactersitics_list = characteristics_VF
+            self.table_to_insert = TABLE_VON_FREY
+        if self.table_id == "TI":
+            self.final_charactersitics_list = characteristics_TI
+            self.table_to_insert = TABLE_TAIL_IMMERSION
 
 
     def process_characteristics(self):

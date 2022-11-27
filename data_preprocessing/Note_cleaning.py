@@ -7,17 +7,29 @@ input_path = 'INPUT_PATH'
 output_path = 'OUTPUT_PATH'
 files = ['ALL NOTE FILES (excelsheets)']
 
+def note_transform(filepath):
+    df = pd.read_excel(filepath)
+    
+    # drop extra column
+    initial_cols = list(map(str.lower, df.columns))
+    if 'index' in initial_cols:
+        idx = initial_cols.index('index')
+        df.drop(df.columns[idx], axis=1, inplace=True)
+
+    # drop duplicate data
+    df.drop_duplicates(inplace=True)
+
+    # rearrange column format
+    df.rename(columns=str.lower,inplace=True)
+    df.columns = df.columns.str.replace(' ','_')
+    df.trial_id = df.trial_id.str.upper()
+    
+    df.rfid = df.rfid.astype(str)
+
+    return df
+
 for f in files:
     print(f)
-    test = pd.read_excel(os.path.join(input_path, f))
-    # possible duplicates in the notes
-    test.drop_duplicates(inplace=True)
-    # modify column names & format
-    test.rename(columns=str.lower,inplace=True)
-    test.columns = test.columns.str.replace(' ','_')
-    test.drug = test.drug.str.lower()
-    test.trial_id = test.trial_id.str.upper()
-    # "All" was used to represent the entire cohorts data in some files
-    test.rfid.replace('All', 0, inplace = True)
-    # also note that sometimes there will be missing rfid in the file
-    test.to_csv(os.path.join(output_path, f.split('.')[0] + '.csv'))
+    filepath = os.path.join(input_path, f)
+    df = note_transform(filepath)
+    df.to_csv(os.path.join(output_path, f.split('.')[0] + '.csv'))
