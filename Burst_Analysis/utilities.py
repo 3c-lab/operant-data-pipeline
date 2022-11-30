@@ -58,7 +58,7 @@ def cleanup(filepath):
     new_columns.insert(1, new_columns.pop(new_columns.index('Start Datetime')))
     new_columns.insert(2, new_columns.pop(new_columns.index('End Datetime')))
 
-    #
+    # reorder the columns
     idx = new_columns.index('Reward') + 1
     new_columns.insert(idx, new_columns.pop(new_columns.index('Timeout')))
 
@@ -194,6 +194,9 @@ def calculations_single(df):
 
     # retrieve the "bursts" (cluster of rewards happened within 2 mins) from rewards 
     dff['rawBurst'] = dff['cleanedRewards'].apply(get_bursts)
+    # if want to change the burst duration:
+    # e.g. for 3-minute burst, this line should look like
+    # dff['rawBurst'] = dff['cleanedRewards'].apply(lambda x: get_bursts(x,duration=180))
     dff['numBurst'] = dff['rawBurst'].apply(lambda x: len([i for i in x if len(i)>1]))
 
     # get the mean number of rewards across all the bursts
