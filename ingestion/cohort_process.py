@@ -8,11 +8,14 @@ from subject import Subject
 
 class CohortProcess:
 
-    def __init__(self, filepath):
+    def __init__(self, filepath, type):
         self.excel_filepath = filepath
         self.cohort_subjects = []
         self.subjects = []
-        self.df_sheets = pd.read_excel(self.excel_filepath, sheet_name= None)
+        if type == 'cocaine':
+            self.df_sheets = pd.read_excel(self.excel_filepath, sheet_name = None, converters = cocaine_excel_converters)
+        else:
+            self.df_sheets = pd.read_excel(self.excel_filepath, sheet_name = None, converters= oxycodone_excel_converters)
         self.df_timeline = self.get_df_excel_file(self.df_sheets['Timeline']) if 'Timeline' in self.df_sheets.keys() else self.get_df_excel_file(self.df_sheets['Information Sheet'])
         self.df_exit_tab = self.get_df_excel_file(self.df_sheets['Exit Tab'])
         self.df_exit_tab = self.df_exit_tab.drop(['rat', 'cohort'], axis=1)
@@ -36,7 +39,7 @@ class CohortProcess:
             Converted all column names to be lowercase
         '''
         
-        df['RFID'] = df['RFID'].astype(int)
+        df['RFID'] = df['RFID'].astype(str)
         df.columns = (df.columns.str.replace(u'\xa0', u'')).str.strip()
         df.columns = df.columns.str.lower()
         list_date_cols = [col for col in df.columns if any(match in col.lower() for match in ['date', 'day'])]
@@ -60,8 +63,11 @@ class CohortProcess:
         return
 
 def main():
-    for cocaine_cohort in COCAINE_COHORT_ALL:
-        cohort = CohortProcess(cocaine_cohort)
+    # for cocaine_cohort in COCAINE_COHORT_ALL:
+    #     cohort = CohortProcess(cocaine_cohort, "cocaine")
+    #     cohort.insert_cohort()
+    for oxy_cohort in OXYCODONE_COHORT_ALL:
+        cohort = CohortProcess(oxy_cohort, "oxycodone")
         cohort.insert_cohort()
 
 

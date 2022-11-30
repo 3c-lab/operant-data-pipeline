@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS subject;
 
 CREATE TABLE subject (
-    rfid bigint PRIMARY KEY,
+    rfid VARCHAR(255) PRIMARY KEY,
     rat VARCHAR(255),
     cohort integer, -- integer
     experiment_group VARCHAR(255),
@@ -80,7 +80,7 @@ CREATE TABLE subject (
     rack VARCHAR(255),
     recatheter_surgeon VARCHAR(255),
     recatheter_surgery_date DATE,
-    shipping_box integer, -- integer
+    shipping_box VARCHAR(255), -- integer
     surgeon VARCHAR(255),
     surgery_assist VARCHAR(255),
     surgery_date DATE,
