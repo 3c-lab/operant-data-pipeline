@@ -59,8 +59,8 @@ def cleanup(filepath):
     new_columns.insert(2, new_columns.pop(new_columns.index('End Datetime')))
 
     #
-    #idx = new_columns.index('Reward') + 1
-    #new_columns.insert(idx, new_columns.pop(new_columns.index('Timeout')))
+    idx = new_columns.index('Reward') + 1
+    new_columns.insert(idx, new_columns.pop(new_columns.index('Timeout')))
 
     # fill the nan with 0
     df = df[new_columns]
@@ -84,16 +84,17 @@ def get_mode(lst):
     return mode(lst)
 
 
-def get_bursts(lst):
+def get_bursts(lst, duration=120):
     """ This function retrieves the "bursts" (cluster of rewards happened within 2 mins) from rewards
 
     Args:
-        lst (_type_): list of int
+        lst (list): list of the timestamps (Nth second)
+        duration (int): the duration of the bursts, default to 120 seconds
 
     Returns:
         _type_: 2d list
     """
-    interval = 120
+    interval = duration # the interval in seconds
     allBursts = []
 
     i = 0
@@ -276,6 +277,9 @@ def one_calculation(file_name, sheet_name, rats):
     
     # retrieve the "bursts" (cluster of rewards happened within 2 mins) from rewards 
     dff['rawBurst'] = dff['cleanedRewards'].apply(get_bursts)
+    # if want to change the burst duration:
+    # e.g. for 3-minute burst, this line should look like
+    # dff['rawBurst'] = dff['cleanedRewards'].apply(lambda x: get_bursts(x,duration=180))
     dff['numBurst'] = dff['rawBurst'].apply(lambda x: len([i for i in x if len(i)>1]))
     
     # get the mean number of rewards across all the bursts
