@@ -31,9 +31,9 @@ class TrialProcess:
 
 
 def main():
-    for file in TRIAL_SHA_FILES:
+    for file in TRIAL_NOTE_FILES:
         print(file)
-        trial = TrialProcess(file, 'SHA')
+        trial = TrialProcess(file, 'NOTE')
         trial.insert_trial()
 
 

@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 import re
 from datetime import datetime
@@ -7,11 +6,15 @@ warnings.filterwarnings('ignore')
 import os
 from tqdm import tqdm
 
-def transform_data_shock(input_path, file, parsers):
+df_rfid_coc = pd.read_csv('rfid_cocaine.csv', index_col=0)
+df_rfid_coc
+
+def transform_shock(input_path, file, parsers):
     # import data and transpose
     filepath = os.path.join(input_path, file)
     df_raw = pd.read_excel(filepath)
     
+    # ?
     num_subjects = len(set([i for i in df_raw.iloc[5,:].values if isinstance(i, int)]))
     if df_raw.shape[1] > num_subjects+1:
         df_raw = df_raw.iloc[:,:num_subjects+1]
@@ -72,10 +75,20 @@ def transform_data_shock(input_path, file, parsers):
     new_columns = ['Subject','Room','Cohort','Trial ID','Drug','Box','Start Time','End Time','Start Date','End Date',
                    'Total Active Lever Presses', 'Total Inactive Lever Presses','Total Shocks', 'Total Reward', 
                    'Rewards After First Shock','Rewards Got Shock', 'Reward Timestamps']
+    
     df = df[new_columns]
     df = df.sort_values(by='Subject').reset_index(drop=True)
+    df.rename(columns=str.lower,inplace=True)
+    df = pd.merge(df, df_rfid_coc,  how='left', on = ['subject'])
+    old_columns = df.columns.tolist()
+    new_columns = [old_columns[-1]] + old_columns[:-1]
+    df = df[new_columns]
+    df.columns = df.columns.str.replace(' ','_')
+    df.fillna({'rfid':-999}, inplace=True)
     
-    return df
+    # store the final output in csv
+    filename = file[:-11] + 'transformed.csv'
+    df.to_csv(os.path.join(output_path, filename))
 
 
 # -----------------------------------------------------------------------------------
@@ -87,6 +100,4 @@ if __name__ == "__main__":
     files = [i for i in sorted(os.listdir(input_path)) if i != '.DS_Store']
 
     for i in tqdm(range(len(files))):
-        df = transform_data_shock(input_path, files[i], parsers)
-        filename = files[i][:-11] + 'transformed.csv'
-        df.to_csv(os.path.join(output_path, filename))
+        transform_shock(input_path, files[i], parsers)
