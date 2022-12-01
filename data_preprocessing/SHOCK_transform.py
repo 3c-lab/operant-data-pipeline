@@ -6,8 +6,8 @@ warnings.filterwarnings('ignore')
 import os
 from tqdm import tqdm
 
+# RFID tables for merge
 df_rfid_coc = pd.read_csv('rfid_cocaine.csv', index_col=0)
-df_rfid_coc
 
 def transform_shock(input_path, file, parsers):
     # import data and transpose
@@ -77,7 +77,6 @@ def transform_shock(input_path, file, parsers):
                    'Rewards After First Shock','Rewards Got Shock', 'Reward Timestamps']
     
     df = df[new_columns]
-    df = df.sort_values(by='Subject').reset_index(drop=True)
     df.rename(columns=str.lower,inplace=True)
     df = pd.merge(df, df_rfid_coc,  how='left', on = ['subject'])
     old_columns = df.columns.tolist()
