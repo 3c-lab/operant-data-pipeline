@@ -26,7 +26,7 @@ class Subject(Pipeline):
             that isn't a measurement
         '''
 
-        for characteristic in final_charactersitics_list:
+        for characteristic in final_characteristics_list:
             
             characteristic_value = self.subject_row.get(characteristic, default=None)
             if 'date' in characteristic.lower() or 'exit day' in characteristic.lower():
@@ -99,7 +99,7 @@ class Subject(Pipeline):
     def construct_characteristic_sql_string(self):
         values = ','.join(['%s'] * CHARACTERISTIC_TABLE_COLUMNS_COUNT)
         sql_string = f"""INSERT INTO {CHARACTERISTIC_TABLE_NAME} VALUES ({values}) ON CONFLICT (rfid) DO NOTHING;""" 
-        sql_string_values = list([self.characteristics[key] for key in final_charactersitics_list])
+        sql_string_values = list([self.characteristics[key] for key in final_characteristics_list])
         for i in range(len(sql_string_values)):
             if sql_string_values[i] is not None and isinstance(sql_string_values[i], float):
                 if math.isnan(sql_string_values[i]):

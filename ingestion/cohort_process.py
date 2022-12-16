@@ -63,9 +63,9 @@ class CohortProcess:
         return
 
 def main():
-    # for cocaine_cohort in COCAINE_COHORT_ALL:
-    #     cohort = CohortProcess(cocaine_cohort, "cocaine")
-    #     cohort.insert_cohort()
+    for cocaine_cohort in COCAINE_COHORT_ALL:
+        cohort = CohortProcess(cocaine_cohort, "cocaine")
+        cohort.insert_cohort()
     for oxy_cohort in OXYCODONE_COHORT_ALL:
         cohort = CohortProcess(oxy_cohort, "oxycodone")
         cohort.insert_cohort()

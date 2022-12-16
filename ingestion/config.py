@@ -195,7 +195,7 @@ cocaine_excel_converters = {
 oxycodone_excel_converters = {
     'Rat': str, 
     'RFID': str, 
-    'Cohort': int, 
+    'Cohort': int, # int
     'Sex': str, 
     'D.O.B': pd.Timestamp, 
     'Coat Color': str, 
@@ -203,24 +203,24 @@ oxycodone_excel_converters = {
     'Shipping Box': str, 
     'Date of Wean': pd.Timestamp, 
     'Date of Ship': pd.Timestamp, 
-    'Litter Number': int, 
-    'Litter Size': int, 
+    'Litter Number': int, # int
+    'Litter Size': int, # int
     'Rack': str, 
     'Arrival Date': pd.Timestamp, 
-    'Age at Arrival': int, 
+    'Age at Arrival': int, # int
     'Handled Collection': str, 
     'Experiment Group': str, 
     'Drug Group': str, 
     'Surgery Date': pd.Timestamp, 
-    'Age at Surgery': int, 
+    'Age at Surgery': int, # int
     'Surgeon': str, 
     'Surgery Assist': str, 
     'Date of Eye Bleed': pd.Timestamp,
     'UV': str, 
-    'Age at ShA': int, 
+    'Age at ShA': int, # int
     'Short Access Start Date': pd.Timestamp, 
     'Short Access End Date': pd.Timestamp,
-    'Age at LgA': int, 
+    'Age at LgA': int, # int
     'Long Access Start Date': pd.Timestamp, 
     'Long Access End Date': pd.Timestamp, 
     'Brevital Date': pd.Timestamp, 
@@ -254,11 +254,11 @@ oxycodone_excel_converters = {
     'Treatment 3 Date': pd.Timestamp,
     'Treatment 3 Group': str,
     'Treatment 3 Start Time': str,
-    'Age at Dissection': int, 
+    'Age at Dissection': int, # int 
     'Dissection Date': pd.Timestamp, 
     'Dissection Group': str, 
     'Date of Death': pd.Timestamp, 
-    #'Days of Experiment'
+    # 'Days of Experiment': int
     # Save for separate
     # 'Days of Experiment', 'Reason for Removal from Study', 'Was Replaced', 'Replaced', 'Last Session'
 }
@@ -295,7 +295,7 @@ exit_tab_list = [
 ]
 
 # Union of characteristics from Cocaine and Oxycodone
-final_charactersitics_list = [
+final_characteristics_list = [
     'rfid', 'rat', 'cohort', 'experiment group', 'drug group', 'sex', 'arrival date', 'age at arrival', 'uv', 'brevital', 'brevital date', 'brevital collection', 'lga15 date',
     'lga16 date', 'lga17 date', 'lga18 date', 'lga19 date', 'lga20 date', 'age at lga', 'long access start date', 'long access end date', 'age at sha', 'short access start date',
     'short access end date', 'pre-shock date', 'shock (0.1ma) date', 'shock (0.2ma) date', 'shock (0.3ma) date', 'irritability 1 collection', 'irritability 1 date', 'irritability 2 collection', 
@@ -308,7 +308,7 @@ final_charactersitics_list = [
     'age at surgery', 'date of death', 'days of experiment', 'exit day', 'last good session', 'exit code', 'complete', 'tissue collected', 'exit notes', 'replaced by'
 ]
 
-CHARACTERISTIC_TABLE_COLUMNS_COUNT = len(final_charactersitics_list)
+CHARACTERISTIC_TABLE_COLUMNS_COUNT = len(final_characteristics_list)
 
 
 
