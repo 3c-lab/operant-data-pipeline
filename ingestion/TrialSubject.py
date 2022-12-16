@@ -32,6 +32,12 @@ class TrialSubject(Pipeline):
         if self.table_id == "NOTE":
             self.final_charactersitics_list = characteristics_NOTE
             self.table_to_insert = TABLE_TRIAL_NOTE
+        if self.table_id == "VF":
+            self.final_charactersitics_list = characteristics_VF
+            self.table_to_insert = TABLE_VON_FREY
+        if self.table_id == "TI":
+            self.final_charactersitics_list = characteristics_TI
+            self.table_to_insert = TABLE_TAIL_IMMERSION
 
 
     def serialize_timestamps(self, string_of_timestamps):
