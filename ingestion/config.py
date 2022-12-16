@@ -10,7 +10,8 @@ TRIAL_LGA_PATH_A = '/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_LGA'
 TRIAL_LGA_PATH_B = '/Users/yunyihuang/Desktop/gl_data/TRIAL/OXY_LGA'
 TRIAL_LGA_TEST = ["/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_LGA/BSB273BC08HSLGA01_transformed.csv"]
 TRIAL_LGA_FILES = (
-    #[os.path.join(TRIAL_LGA_PATH_A, i) for i in sorted(os.listdir(TRIAL_LGA_PATH_A)) if (i != '.DS_Store')] + 
+    # [os.path.join(TRIAL_LGA_PATH_A, i) for i in sorted(os.listdir(TRIAL_LGA_PATH_A)) if (i != '.DS_Store')] 
+    # + 
     [os.path.join(TRIAL_LGA_PATH_B, i) for i in sorted(os.listdir(TRIAL_LGA_PATH_B)) if (i != '.DS_Store')]
 )
 

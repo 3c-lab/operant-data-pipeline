@@ -24,12 +24,8 @@ def note_transform(filepath):
     df.columns = df.columns.str.replace(' ','_')
     df.trial_id = df.trial_id.str.upper()
     
-    df.rfid = df.rfid.astype(str)
-
-    return df
+    #df.rfid = df.rfid.astype(str)
+    df.to_csv(os.path.join(output_path, f.split('.')[0] + '.csv'))
 
 for f in files:
-    print(f)
-    filepath = os.path.join(input_path, f)
-    df = note_transform(filepath)
-    df.to_csv(os.path.join(output_path, f.split('.')[0] + '.csv'))
+    note_transform(os.path.join(input_path, f))

@@ -27,7 +27,7 @@ create table trial_lga
     reward_timestamps      text,
     timeout_timestamps     text,
     constraint trial_lga_pk
-        primary key (rfid, trial_id, drug)
+        primary key (rfid, trial_id, drug, start_time)
 );
 
 -- SHA for both COC and OXY (19 columns)
