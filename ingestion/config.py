@@ -20,7 +20,8 @@ TRIAL_SHA_PATH_B = '/Users/yunyihuang/Desktop/gl_data/TRIAL/OXY_SHA'
 TRIAL_SHA_TEST = ['/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHA/BSB273BC08HSSHA02_transformed.csv',
                   '/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHA/BSB273BC08HSSHA03_transformed.csv',]
 TRIAL_SHA_FILES = (
-    [os.path.join(TRIAL_SHA_PATH_A, i) for i in sorted(os.listdir(TRIAL_SHA_PATH_A)) if (i != '.DS_Store')] + 
+    # [os.path.join(TRIAL_SHA_PATH_A, i) for i in sorted(os.listdir(TRIAL_SHA_PATH_A)) if (i != '.DS_Store')] 
+    # + 
     [os.path.join(TRIAL_SHA_PATH_B, i) for i in sorted(os.listdir(TRIAL_SHA_PATH_B)) if (i != '.DS_Store')]
 )
 

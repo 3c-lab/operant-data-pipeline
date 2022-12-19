@@ -94,8 +94,8 @@ def transform_shock(input_path, file, parsers):
 if __name__ == "__main__":
     input_path = '__file path for input excel SHOCK data__'
     output_path = '__file path for output transformed SHOCK data__'
-    parsers = [r"(\A[A-Z]+[0-9]+[A-Z|0-9]{1})(C[0-9]{2})HS((?:PRESHOCK|SHOCK))",
-               r"(\AC[0-9]{2})HS((?:PRESHOCK|SHOCK))"]
+    parsers = [r"(\A[A-Z]+[0-9]+[A-Z|0-9]{1})(C[0-9]{2})HS((?:PRESHOCK[0-9]*|SHOCK[0-9]*))",
+               r"(\AC[0-9]{2})HS((?:PRESHOCK[0-9]*|SHOCK[0-9]*))"]
     files = [i for i in sorted(os.listdir(input_path)) if i != '.DS_Store']
 
     for i in tqdm(range(len(files))):
