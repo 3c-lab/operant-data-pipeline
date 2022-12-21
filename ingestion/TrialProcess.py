@@ -14,6 +14,7 @@ class TrialProcess:
     def process_df(self, df: pd.DataFrame):
         # placeholder method for later revision (maybe add the cleaning script to here?)
         dff = df[df['rfid'] != -999].reset_index(drop=True)
+        dff['drug'] = dff['drug'].str.lower()
         return dff
 
 
@@ -31,9 +32,9 @@ class TrialProcess:
 
 
 def main():
-    for file in TRIAL_SHA_FILES:
+    for file in TRIAL_LGA_FILES:
         print(file)
-        trial = TrialProcess(file, 'SHA')
+        trial = TrialProcess(file, 'LGA')
         trial.insert_trial()
 
 
