@@ -8,15 +8,17 @@ from pipeline import Pipeline
 
 class Subject(Pipeline):
 
-    def __init__(self, subject_row):
+    def __init__(self, subject_row, type):
         '''
             characteristics are only one value
             Measurements are repeated (numbered) values
         '''
         # self.rfid = int(subject_row['rfid'])
         self.characteristics = defaultdict(lambda: None)
-        self.measurements = []
+        self.measurements = list()
+        self.measurement_cols = cocaine_measurements_list if type == 'cocaine' else oxycodone_measurements_list
         self.subject_row = subject_row
+        self.type = type
         super().__init__()
         # self.conn, self.cur = Pipeline.connect_db()
 
@@ -41,38 +43,43 @@ class Subject(Pipeline):
             else:
                 self.characteristics[characteristic] = characteristic_value
 
-    # def process_measurements(self):
-    #     for measurement_dict in cocaine_measurements_list:
+    def process_measurements(self):
+        '''
+            Get all information that is repeated measured (for a possibly arbitrary number of times) - weights, feces, etc
+        '''
+        print(f'SUBJECT ROW IS: {self.subject_row.keys()}')
+
+        for measurement_dict in self.measurement_cols:
     
-    #         counts = measurement_dict['counts']
-    #         suffixes = measurement_dict['col_suffix']
+            counts = measurement_dict['counts']
+            suffixes = measurement_dict['col_suffix']
 
-    #         # Loop through each count of the measurement
-    #         for i in range(1, counts+1):
+            # Loop through each count of the measurement
+            for count_num in counts:
 
-    #             # Use default dict as we will need all access all values to insert into database
-    #             insert_dict = defaultdict(lambda: None)
-    #             col_name = measurement_dict['col_name']
-    #             current_number = i
+                # Use default dict as we will need all access all values to insert into database
+                insert_dict = defaultdict(lambda: None)
+                col_name = measurement_dict['col_name']
+                current_number = count_num
 
-    #             insert_dict['name'] = measurement_dict['measurement_name']
-    #             insert_dict['measure_number'] = current_number
+                insert_dict['rfid'] = self.subject_row.get('rfid')
+                insert_dict['measurement_name'] = measurement_dict['measurement_name']
+                insert_dict['measure_number'] = current_number
                 
-    #             for suffix in suffixes:
-    #                 # This is used to query for the value of a specific column referencing a measurement value for the current subject (row)
-    #                 # TODO: Strip is to account for columns whose value that are denoted by empty str instead of 'Value'
-    #                 full_col_name = ' '.join([col_name, str(current_number), suffix]).strip()                    
-
-    #                 if suffix == 'Value':
-    #                     insert_dict['value'] = self.subject_row[full_col_name]
-    #                 elif suffix == 'By' or suffix == 'Collection':
-    #                     insert_dict['technician'] = self.subject_row[full_col_name]
-    #                 elif suffix == 'Date':
-    #                     insert_dict['date_measured'] = self.subject_row[full_col_name]
-
-    #             self.measurements.append(insert_dict)
-
-    #     return 
+                for suffix in suffixes:
+                    # This is used to query for the value of a specific column referencing a measurement value for the current subject (row)
+                    # TODO: Strip is to account for columns whose value that are denoted by empty str instead of 'Value'
+                    full_col_name = ' '.join([col_name, str(current_number), suffix]).strip()
+                    full_col_name = full_col_name.lower()
+                    if suffix == 'Value' or suffix == 'Analysis':
+                        insert_dict['value'] = self.subject_row[full_col_name]
+                    elif suffix == 'By' or suffix == 'Collection':
+                        insert_dict['technician'] = self.format_multiple_values_into_array(self.subject_row[full_col_name])
+                    elif suffix == 'Date':
+                        insert_dict['date_measured'] = self.format_date(self.subject_row[full_col_name])
+                self.measurements.append(insert_dict)
+        print(self.measurements)
+        return 
 
     @staticmethod
     def format_date(date: datetime):
@@ -106,17 +113,21 @@ class Subject(Pipeline):
                     sql_string_values[i] = None
         return sql_string, sql_string_values
 
+    def construct_measurement_sql_string(self):
+        
+        return
+
     def insert_characteristics(self):
         sql_string, sql_string_values = self.construct_characteristic_sql_string()
-        # print(sql_string)
-        # print(sql_string_values)
-        # print(f'The value is {sql_string_values[-19]} with {type(sql_string_values[-19])}')
-        # print(f'The value is {sql_string_values[-18]} with {type(sql_string_values[-18])}')
-        # print(len(sql_string_values))
         self.cur.execute(sql_string, sql_string_values)
         self.cur.execute(f"SELECT * FROM {CHARACTERISTIC_TABLE_NAME};")
         self.conn.commit()
         self.cur.close()
+
+    def insert_measurements(self):
+        sql_string, sql_string_values = self.construct_measurement_sql_string()
+
+        return 
 
 
         

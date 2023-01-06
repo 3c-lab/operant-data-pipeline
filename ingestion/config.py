@@ -7,22 +7,22 @@ from dotenv import load_dotenv
 dotenv_path = join(dirname(dirname(__file__)), '.env')
 load_dotenv(dotenv_path)
 
-# TRIAL_LGA_TEST = ["/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_LGA/BSB273BC08HSLGA01_transformed.csv"]
+TRIAL_LGA_TEST = ["/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_LGA/BSB273BC08HSLGA01_transformed.csv"]
 
-# TRIAL_SHA_TEST = ['/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHA/BSB273BC08HSSHA02_transformed.csv',
-#                   '/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHA/BSB273BC08HSSHA03_transformed.csv',]
+TRIAL_SHA_TEST = ['/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHA/BSB273BC08HSSHA02_transformed.csv',
+                  '/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHA/BSB273BC08HSSHA03_transformed.csv',]
 
-# TRIAL_PR_TEST = ['/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_PR/BSB273BC08HSPR01_transformed.csv',
-#                  '/Users/yunyihuang/Desktop/gl_data/TRIAL/OXY_PR/BSB273BC04HSOXYPR01_transformed.csv',]
+TRIAL_PR_TEST = ['/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_PR/BSB273BC08HSPR01_transformed.csv',
+                 '/Users/yunyihuang/Desktop/gl_data/TRIAL/OXY_PR/BSB273BC04HSOXYPR01_transformed.csv',]
 
-# TRIAL_SHOCK_TEST = ['/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHOCK/BSB273BC08HSSHOCK_transformed.csv',
-#                     '/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHOCK/BSB273BC08HSSHOCK-1_transformed.csv']
+TRIAL_SHOCK_TEST = ['/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHOCK/BSB273BC08HSSHOCK_transformed.csv',
+                    '/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHOCK/BSB273BC08HSSHOCK-1_transformed.csv']
 
-# TAIL_IMMERSION_PATH = '/Users/yunyihuang/Desktop/gl_data/Cleaned_Tail_Immersion'
-# TAIL_IMMERSION_FILES = [os.path.join(TAIL_IMMERSION_PATH, i) for i in sorted(os.listdir(TAIL_IMMERSION_PATH)) if (i != '.DS_Store')]
+TAIL_IMMERSION_PATH = '/Users/yunyihuang/Desktop/gl_data/Cleaned_Tail_Immersion'
+TAIL_IMMERSION_FILES = [os.path.join(TAIL_IMMERSION_PATH, i) for i in sorted(os.listdir(TAIL_IMMERSION_PATH)) if (i != '.DS_Store')]
 
-# VON_FREY_PATH = '/Users/yunyihuang/Desktop/gl_data/Cleaned_Von_Frey'
-# VON_FREY_FILES = [os.path.join(VON_FREY_PATH, i) for i in sorted(os.listdir(VON_FREY_PATH)) if (i != '.DS_Store')]
+VON_FREY_PATH = '/Users/yunyihuang/Desktop/gl_data/Cleaned_Von_Frey'
+VON_FREY_FILES = [os.path.join(VON_FREY_PATH, i) for i in sorted(os.listdir(VON_FREY_PATH)) if (i != '.DS_Store')]
 
 DATABASE_HOST = "localhost"
 DATABASE_PORT = "1192"
@@ -136,6 +136,12 @@ cocaine_characteristics_list = [
     # 'Date Excluded', 'Exclude Reason'
 ]
 
+cocaine_measurements_list = [
+    {'measurement_name': 'urine', 'col_name': 'Urine', 'counts': [i for i in range(1, 3)], 'col_suffix': ['Date', 'Collection']},
+    {'measurement_name': 'female_swab', 'col_name': 'Female Swab', 'counts': [i for i in range(1, 4)], 'col_suffix': ['Date', 'Collection']},
+    {'measurement_name': 'weight', 'col_name': 'Weight', 'counts': [i for i in range(1, 11)], 'col_suffix': ['Value', 'Date']},
+    {'measurement_name': 'feces', 'col_name': 'Feces', 'counts': [i for i in range(1, 5)], 'col_suffix': ['Date', 'Collection']},
+]
 
 cocaine_excel_converters = {
     'Rat': str, 
@@ -284,10 +290,10 @@ oxycodone_characteristics_list = [
 ]
 
 oxycodone_measurements_list = [
-    {'measurement_name': 'urine', 'col_name': 'Urine', 'counts': [i for i in range(1, 3)], 'col_suffix': ['Date', 'By']},
-    {'measurement_name': 'female_swab', 'col_name': 'Female Swab', 'counts': [i for i in range(1, 4)], 'col_suffix': ['Date', 'By', 'Analysis']},
+    {'measurement_name': 'urine', 'col_name': 'Urine', 'counts': [i for i in range(1, 3)], 'col_suffix': ['Date', 'Collection']},
+    {'measurement_name': 'female_swab', 'col_name': 'Female Swab', 'counts': [i for i in range(1, 4)], 'col_suffix': ['Date', 'Collection', 'Analysis']},
     {'measurement_name': 'weight', 'col_name': 'Weight', 'counts': [i for i in range(1, 13)], 'col_suffix': ['Value', 'Date']},
-    {'measurement_name': 'feces', 'col_name': 'Feces', 'counts': [i for i in range(1, 4)], 'col_suffix': ['Date', 'By']},
+    {'measurement_name': 'feces', 'col_name': 'Feces', 'counts': [i for i in range(1, 4)], 'col_suffix': ['Date', 'Collection']},
 ]
 
 exit_tab_list = [
@@ -306,6 +312,13 @@ final_characteristics_list = [
     'coat color', 'd.o.b', 'date of eye bleed', 'date of ship', 'date of wean', 'age at dissection', 'dissection group', 'dissection date', 'ear punch', 'group for pre-shock',
     'group for shock', 'handled collection', 'litter number', 'litter size', 'rack', 'recatheter surgeon', 'recatheter surgery date', 'shipping box', 'surgeon', 'surgery assist', 'surgery date',
     'age at surgery', 'date of death', 'days of experiment', 'exit day', 'last good session', 'exit code', 'complete', 'tissue collected', 'exit notes', 'replaced by'
+]
+
+final_measurements_list = [
+    {'measurement_name': 'urine', 'col_name': 'Urine', 'counts': [i for i in range(1, 3)], 'col_suffix': ['Date', 'Collection']},
+    {'measurement_name': 'female_swab', 'col_name': 'Female Swab', 'counts': [i for i in range(1, 4)], 'col_suffix': ['Date', 'Collection', 'Analysis']},
+    {'measurement_name': 'weight', 'col_name': 'Weight', 'counts': [i for i in range(1, 13)], 'col_suffix': ['Value', 'Date']},
+    {'measurement_name': 'feces', 'col_name': 'Feces', 'counts': [i for i in range(1, 5)], 'col_suffix': ['Date', 'Collection']},
 ]
 
 CHARACTERISTIC_TABLE_COLUMNS_COUNT = len(final_characteristics_list)

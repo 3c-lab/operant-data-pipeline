@@ -12,6 +12,7 @@ class CohortProcess:
         self.excel_filepath = filepath
         self.cohort_subjects = []
         self.subjects = []
+        self.type = type
         if type == 'cocaine':
             self.df_sheets = pd.read_excel(self.excel_filepath, sheet_name = None, converters = cocaine_excel_converters)
         else:
@@ -49,26 +50,30 @@ class CohortProcess:
         return df
 
     def insert_subject(self, subject: Subject):
-        subject.process_characteristics()
-        subject.insert_characteristics()
+        # subject.process_characteristics()
+        # subject.insert_characteristics()
+        subject.process_measurements()
+
 
     def insert_cohort(self):
         '''
             Loop through all subjects of the cohort and insert them into the database
         '''
         for index, subject_row in self.df_final.iterrows():
-            subject = Subject(subject_row)
+            subject = Subject(subject_row, self.type)
             self.insert_subject(subject)
-        print(self.df_final)
+        # print(self.df_final)
         return
 
 def main():
-    for cocaine_cohort in COCAINE_COHORT_ALL:
+    for cocaine_cohort in COCAINE_COHORT_ALL[0:1]:
+        print(f'NAME OF THE COCAINE COHORT IS: {cocaine_cohort}')
         cohort = CohortProcess(cocaine_cohort, "cocaine")
         cohort.insert_cohort()
-    for oxy_cohort in OXYCODONE_COHORT_ALL:
-        cohort = CohortProcess(oxy_cohort, "oxycodone")
-        cohort.insert_cohort()
+    # for oxy_cohort in OXYCODONE_COHORT_ALL:
+    #     cohort = CohortProcess(oxy_cohort, "oxycodone")
+    #     cohort.insert_cohort()
+
 
 
 if __name__ == '__main__':
