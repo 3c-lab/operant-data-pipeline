@@ -29,26 +29,41 @@ TRIAL_SHA_PATH_C = '/Users/yunyihuang/Desktop/gl_data/GEORGE/COC_SHA'
 TRIAL_SHA_PATH_D = '/Users/yunyihuang/Desktop/gl_data/GEORGE/OXY_SHA'
 TRIAL_SHA_PATH_E = '/Users/yunyihuang/Desktop/gl_data/OXYCODONE/NEW_SHA'
 TRIAL_SHA_FILES = (
-    # [os.path.join(TRIAL_SHA_PATH_A, i) for i in sorted(os.listdir(TRIAL_SHA_PATH_A)) if (i != '.DS_Store')] 
-    # + 
-    # [os.path.join(TRIAL_SHA_PATH_B, i) for i in sorted(os.listdir(TRIAL_SHA_PATH_B)) if (i != '.DS_Store')] 
-    # + 
-    # [os.path.join(TRIAL_SHA_PATH_C, i) for i in sorted(os.listdir(TRIAL_SHA_PATH_C)) if (i != '.DS_Store')] 
-    # + 
-    # [os.path.join(TRIAL_SHA_PATH_D, i) for i in sorted(os.listdir(TRIAL_SHA_PATH_D)) if (i != '.DS_Store')]
-    # + 
+    [os.path.join(TRIAL_SHA_PATH_A, i) for i in sorted(os.listdir(TRIAL_SHA_PATH_A)) if (i != '.DS_Store')] 
+    + 
+    [os.path.join(TRIAL_SHA_PATH_B, i) for i in sorted(os.listdir(TRIAL_SHA_PATH_B)) if (i != '.DS_Store')] 
+    + 
+    [os.path.join(TRIAL_SHA_PATH_C, i) for i in sorted(os.listdir(TRIAL_SHA_PATH_C)) if (i != '.DS_Store')] 
+    + 
+    [os.path.join(TRIAL_SHA_PATH_D, i) for i in sorted(os.listdir(TRIAL_SHA_PATH_D)) if (i != '.DS_Store')]
+    + 
     [os.path.join(TRIAL_SHA_PATH_E, i) for i in sorted(os.listdir(TRIAL_SHA_PATH_E)) if (i != '.DS_Store')]
 )
 
 TRIAL_PR_PATH_A = '/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_PR'
 TRIAL_PR_PATH_B = '/Users/yunyihuang/Desktop/gl_data/TRIAL/OXY_PR'
 TRIAL_PR_PATH_C = '/Users/yunyihuang/Desktop/gl_data/OXYCODONE/NEW_PR'
+TRIAL_PR_PATH_D = '/Users/yunyihuang/Desktop/gl_data/GEORGE/COC_PR'
+TRIAL_PR_PATH_E = '/Users/yunyihuang/Desktop/gl_data/GEORGE/OXY_PR'
 TRIAL_PR_FILES = (
+    [os.path.join(TRIAL_PR_PATH_A, i) for i in sorted(os.listdir(TRIAL_PR_PATH_A)) if (i != '.DS_Store')]
+    +
+    [os.path.join(TRIAL_PR_PATH_B, i) for i in sorted(os.listdir(TRIAL_PR_PATH_B)) if (i != '.DS_Store')]
+    +
     [os.path.join(TRIAL_PR_PATH_C, i) for i in sorted(os.listdir(TRIAL_PR_PATH_C)) if (i != '.DS_Store')]
+    +
+    [os.path.join(TRIAL_PR_PATH_D, i) for i in sorted(os.listdir(TRIAL_PR_PATH_D)) if (i != '.DS_Store')]
+    +
+    [os.path.join(TRIAL_PR_PATH_E, i) for i in sorted(os.listdir(TRIAL_PR_PATH_E)) if (i != '.DS_Store')]
 )
 
-TRIAL_SHOCK_PATH = '/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHOCK'
-TRIAL_SHOCK_FILES = [os.path.join(TRIAL_SHOCK_PATH, i) for i in sorted(os.listdir(TRIAL_SHOCK_PATH)) if (i != '.DS_Store')]
+TRIAL_SHOCK_PATH_A = '/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHOCK'
+TRIAL_SHOCK_PATH_B = '/Users/yunyihuang/Desktop/gl_data/GEORGE/COC_SHOCK'
+TRIAL_SHOCK_FILES = (
+    [os.path.join(TRIAL_SHOCK_PATH_A, i) for i in sorted(os.listdir(TRIAL_SHOCK_PATH_A)) if (i != '.DS_Store')]
+    +
+    [os.path.join(TRIAL_SHOCK_PATH_B, i) for i in sorted(os.listdir(TRIAL_SHOCK_PATH_B)) if (i != '.DS_Store')]
+)
 
 TRIAL_NOTE_PATH = '/Users/yunyihuang/Desktop/gl_data/Cleaned_Note'
 TRIAL_NOTE_FILES = [os.path.join(TRIAL_NOTE_PATH, i) for i in sorted(os.listdir(TRIAL_NOTE_PATH)) if (i != '.DS_Store')]
