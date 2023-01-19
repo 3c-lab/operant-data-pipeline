@@ -13,7 +13,7 @@ class Subject(Pipeline):
             characteristics are only one value
             Measurements are repeated (numbered) values
         '''
-        # self.rfid = int(subject_row['rfid'])
+        self.rfid = subject_row['rfid']
         self.characteristics = defaultdict(lambda: None)
         self.measurements = list()
         self.measurement_cols = cocaine_measurements_list if type == 'cocaine' else oxycodone_measurements_list
@@ -39,7 +39,8 @@ class Subject(Pipeline):
                 # print(f'The characteristic is {characteristic}')
                 # print(f'Characteristics value is {characteristic_value}')
                 # print(f'Its type is {type(characteristic_value)}')
-                self.characteristics[characteristic] = self.format_multiple_values_into_array(characteristic_value)
+                # self.characteristics[characteristic] = self.format_multiple_values_into_array(characteristic_value)
+                self.characteristics[characteristic] = characteristic_value
             else:
                 self.characteristics[characteristic] = characteristic_value
 
@@ -47,7 +48,6 @@ class Subject(Pipeline):
         '''
             Get all information that is repeated measured (for a possibly arbitrary number of times) - weights, feces, etc
         '''
-        print(f'SUBJECT ROW IS: {self.subject_row.keys()}')
 
         for measurement_dict in self.measurement_cols:
     
@@ -65,6 +65,8 @@ class Subject(Pipeline):
                 insert_dict['rfid'] = self.subject_row.get('rfid')
                 insert_dict['measurement_name'] = measurement_dict['measurement_name']
                 insert_dict['measure_number'] = current_number
+                insert_dict['drug_group'] = self.type
+                insert_dict['cohort'] = self.subject_row.get('cohort')
                 
                 for suffix in suffixes:
                     # This is used to query for the value of a specific column referencing a measurement value for the current subject (row)
@@ -72,13 +74,17 @@ class Subject(Pipeline):
                     full_col_name = ' '.join([col_name, str(current_number), suffix]).strip()
                     full_col_name = full_col_name.lower()
                     if suffix == 'Value' or suffix == 'Analysis':
-                        insert_dict['value'] = self.subject_row[full_col_name]
+                        m_val =  self.subject_row.get(full_col_name, default=None)
+                        # print(type(m_val))
+                        # print(m_val)
+                        insert_dict['measurement_value'] = int(m_val) if not math.isnan(m_val) else None
                     elif suffix == 'By' or suffix == 'Collection':
-                        insert_dict['technician'] = self.format_multiple_values_into_array(self.subject_row[full_col_name])
+                        # insert_dict['technician'] = self.format_multiple_values_into_array(self.subject_row.get(full_col_name, default=None))
+                        insert_dict['technician'] = self.subject_row.get(full_col_name)
                     elif suffix == 'Date':
-                        insert_dict['date_measured'] = self.format_date(self.subject_row[full_col_name])
+                        insert_dict['date_measured'] = self.format_date(self.subject_row.get(full_col_name))
                 self.measurements.append(insert_dict)
-        print(self.measurements)
+        # print(self.measurements)
         return 
 
     @staticmethod
@@ -113,21 +119,31 @@ class Subject(Pipeline):
                     sql_string_values[i] = None
         return sql_string, sql_string_values
 
-    def construct_measurement_sql_string(self):
-        
-        return
+    def construct_measurement_sql_string(self, measurement_row):
+        values_placeholder = ','.join(['%s'] * len(measurement_table_cols))
+        sql_string = f"""INSERT INTO {MEASUREMENT_TABLE_NAME} (rfid, measurement_name, measurement_value, drug_group, cohort, measure_number, date_measured,
+         technician) VALUES ({values_placeholder}) ON CONFLICT (rfid, measurement_name, measure_number) DO NOTHING"""
+        sql_string_values = [measurement_row[col] for col in measurement_table_cols]
+        return sql_string, sql_string_values
 
     def insert_characteristics(self):
         sql_string, sql_string_values = self.construct_characteristic_sql_string()
+        sql_string_values = [val if val != "nan" else None for val in sql_string_values]
+        # for characteristic, val in zip(final_characteristics_list, sql_string_values):
+        #     print(f'{characteristic} : {val}')
         self.cur.execute(sql_string, sql_string_values)
-        self.cur.execute(f"SELECT * FROM {CHARACTERISTIC_TABLE_NAME};")
+        # self.cur.execute(f"SELECT * FROM {CHARACTERISTIC_TABLE_NAME};")
         self.conn.commit()
-        self.cur.close()
+        # self.cur.close()
 
     def insert_measurements(self):
-        sql_string, sql_string_values = self.construct_measurement_sql_string()
-
-        return 
+        # sql_string, sql_string_values = self.construct_measurement_sql_string()
+        for m_row in self.measurements:
+            sql_string, sql_string_values = self.construct_measurement_sql_string(m_row)
+            sql_string_values = [val if val != "nan" else None for val in sql_string_values]
+            self.cur.execute(sql_string, sql_string_values)
+            self.conn.commit()
+        # self.cur.close()
 
 
         

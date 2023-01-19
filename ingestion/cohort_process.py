@@ -50,10 +50,12 @@ class CohortProcess:
         return df
 
     def insert_subject(self, subject: Subject):
-        # subject.process_characteristics()
-        # subject.insert_characteristics()
+        subject.process_characteristics()
+        subject.insert_characteristics()
+        # print(f'FINISHED INSERTING CHARACTERISITCS FOR {subject}')
         subject.process_measurements()
-
+        subject.insert_measurements()
+        # print(f'FINISHED INSERTING MEASUREMENTS FOR {subject}')
 
     def insert_cohort(self):
         '''
@@ -62,17 +64,18 @@ class CohortProcess:
         for index, subject_row in self.df_final.iterrows():
             subject = Subject(subject_row, self.type)
             self.insert_subject(subject)
-        # print(self.df_final)
-        return
+            subject.conn.close()
+        
 
 def main():
-    for cocaine_cohort in COCAINE_COHORT_ALL[0:1]:
+    for cocaine_cohort in COCAINE_COHORT_ALL:
         print(f'NAME OF THE COCAINE COHORT IS: {cocaine_cohort}')
         cohort = CohortProcess(cocaine_cohort, "cocaine")
         cohort.insert_cohort()
-    # for oxy_cohort in OXYCODONE_COHORT_ALL:
-    #     cohort = CohortProcess(oxy_cohort, "oxycodone")
-    #     cohort.insert_cohort()
+    for oxy_cohort in OXYCODONE_COHORT_ALL:
+        print(f'NAME OF THE OXY COHORT IS: {oxy_cohort}')
+        cohort = CohortProcess(oxy_cohort, "oxycodone")
+        cohort.insert_cohort()
 
 
 

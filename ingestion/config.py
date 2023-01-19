@@ -7,29 +7,29 @@ from dotenv import load_dotenv
 dotenv_path = join(dirname(dirname(__file__)), '.env')
 load_dotenv(dotenv_path)
 
-TRIAL_LGA_TEST = ["/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_LGA/BSB273BC08HSLGA01_transformed.csv"]
+# TRIAL_LGA_TEST = ["/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_LGA/BSB273BC08HSLGA01_transformed.csv"]
 
-TRIAL_SHA_TEST = ['/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHA/BSB273BC08HSSHA02_transformed.csv',
-                  '/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHA/BSB273BC08HSSHA03_transformed.csv',]
+# TRIAL_SHA_TEST = ['/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHA/BSB273BC08HSSHA02_transformed.csv',
+#                   '/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHA/BSB273BC08HSSHA03_transformed.csv',]
 
-TRIAL_PR_TEST = ['/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_PR/BSB273BC08HSPR01_transformed.csv',
-                 '/Users/yunyihuang/Desktop/gl_data/TRIAL/OXY_PR/BSB273BC04HSOXYPR01_transformed.csv',]
+# TRIAL_PR_TEST = ['/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_PR/BSB273BC08HSPR01_transformed.csv',
+#                  '/Users/yunyihuang/Desktop/gl_data/TRIAL/OXY_PR/BSB273BC04HSOXYPR01_transformed.csv',]
 
-TRIAL_SHOCK_TEST = ['/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHOCK/BSB273BC08HSSHOCK_transformed.csv',
-                    '/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHOCK/BSB273BC08HSSHOCK-1_transformed.csv']
+# TRIAL_SHOCK_TEST = ['/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHOCK/BSB273BC08HSSHOCK_transformed.csv',
+#                     '/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHOCK/BSB273BC08HSSHOCK-1_transformed.csv']
 
-TAIL_IMMERSION_PATH = '/Users/yunyihuang/Desktop/gl_data/Cleaned_Tail_Immersion'
-TAIL_IMMERSION_FILES = [os.path.join(TAIL_IMMERSION_PATH, i) for i in sorted(os.listdir(TAIL_IMMERSION_PATH)) if (i != '.DS_Store')]
+# TAIL_IMMERSION_PATH = '/Users/yunyihuang/Desktop/gl_data/Cleaned_Tail_Immersion'
+# TAIL_IMMERSION_FILES = [os.path.join(TAIL_IMMERSION_PATH, i) for i in sorted(os.listdir(TAIL_IMMERSION_PATH)) if (i != '.DS_Store')]
 
-VON_FREY_PATH = '/Users/yunyihuang/Desktop/gl_data/Cleaned_Von_Frey'
-VON_FREY_FILES = [os.path.join(VON_FREY_PATH, i) for i in sorted(os.listdir(VON_FREY_PATH)) if (i != '.DS_Store')]
+# VON_FREY_PATH = '/Users/yunyihuang/Desktop/gl_data/Cleaned_Von_Frey'
+# VON_FREY_FILES = [os.path.join(VON_FREY_PATH, i) for i in sorted(os.listdir(VON_FREY_PATH)) if (i != '.DS_Store')]
 
-DATABASE_HOST = "localhost"
-DATABASE_PORT = "1192"
-DATABASE_NAME = "testDS"
-DATABASE_SCHEMA = "public"
-DATABASE_USERNAME = "postgres"
-DATABASE_PASSWORD = "Gareth1192!"
+# DATABASE_HOST = "localhost"
+# DATABASE_PORT = "1192"
+# DATABASE_NAME = "testDS"
+# DATABASE_SCHEMA = "public"
+# DATABASE_USERNAME = "postgres"
+# DATABASE_PASSWORD = "Gareth1192!"
 
 TABLE_TRIAL_LGA = 'trial_lga'
 TABLE_TRIAL_SHA = 'trial_sha'
@@ -102,7 +102,7 @@ OXYCODONE_COHORT_ALL = [
                         os.environ.get("OXYCODONE_11_FILEPATH"), os.environ.get("OXYCODONE_12_FILEPATH"),
                         os.environ.get("OXYCODONE_13_FILEPATH"), os.environ.get("OXYCODONE_14_FILEPATH"),
                         os.environ.get("OXYCODONE_15_FILEPATH"), os.environ.get("OXYCODONE_16_FILEPATH"),
-                        os.environ.get("OXYCODONE_17_FILEPATH")
+                        os.environ.get("OXYCODONE_17_FILEPATH"), os.environ.get("OXYCODONE_18_FILEPATH")
                     ]
 DATABASE_HOST = os.environ.get("A_DATABASE_HOST")
 DATABASE_PORT = os.environ.get("A_DATABASE_PORT")
@@ -112,8 +112,7 @@ DATABASE_USERNAME = os.environ.get("A_DATABASE_USERNAME")
 DATABASE_PASSWORD = os.environ.get("A_DATABASE_PASSWORD")
 
 CHARACTERISTIC_TABLE_NAME = 'subject'
-# MEASUREMENT_TABLE_COLUMNS_COUNT = len(final_measurements_list)
-
+MEASUREMENT_TABLE_NAME = 'measurement'
 # These are all the columns that will be accessed for its value to be inserted into its respective column in the
 # characteristic table
 cocaine_characteristics_list = [
@@ -138,7 +137,7 @@ cocaine_characteristics_list = [
 
 cocaine_measurements_list = [
     {'measurement_name': 'urine', 'col_name': 'Urine', 'counts': [i for i in range(1, 3)], 'col_suffix': ['Date', 'Collection']},
-    {'measurement_name': 'female_swab', 'col_name': 'Female Swab', 'counts': [i for i in range(1, 4)], 'col_suffix': ['Date', 'Collection']},
+    # {'measurement_name': 'female_swab', 'col_name': 'Female Swab', 'counts': [i for i in range(1, 4)], 'col_suffix': ['Date', 'Collection']},
     {'measurement_name': 'weight', 'col_name': 'Weight', 'counts': [i for i in range(1, 11)], 'col_suffix': ['Value', 'Date']},
     {'measurement_name': 'feces', 'col_name': 'Feces', 'counts': [i for i in range(1, 5)], 'col_suffix': ['Date', 'Collection']},
 ]
@@ -291,7 +290,7 @@ oxycodone_characteristics_list = [
 
 oxycodone_measurements_list = [
     {'measurement_name': 'urine', 'col_name': 'Urine', 'counts': [i for i in range(1, 3)], 'col_suffix': ['Date', 'Collection']},
-    {'measurement_name': 'female_swab', 'col_name': 'Female Swab', 'counts': [i for i in range(1, 4)], 'col_suffix': ['Date', 'Collection', 'Analysis']},
+    # {'measurement_name': 'female_swab', 'col_name': 'Female Swab', 'counts': [i for i in range(1, 4)], 'col_suffix': ['Date', 'Collection', 'Analysis']},
     {'measurement_name': 'weight', 'col_name': 'Weight', 'counts': [i for i in range(1, 13)], 'col_suffix': ['Value', 'Date']},
     {'measurement_name': 'feces', 'col_name': 'Feces', 'counts': [i for i in range(1, 4)], 'col_suffix': ['Date', 'Collection']},
 ]
@@ -304,21 +303,26 @@ exit_tab_list = [
 final_characteristics_list = [
     'rfid', 'rat', 'cohort', 'experiment group', 'drug group', 'sex', 'arrival date', 'age at arrival', 'uv', 'brevital', 'brevital date', 'brevital collection', 'lga15 date',
     'lga16 date', 'lga17 date', 'lga18 date', 'lga19 date', 'lga20 date', 'age at lga', 'long access start date', 'long access end date', 'age at sha', 'short access start date',
-    'short access end date', 'pre-shock date', 'shock (0.1ma) date', 'shock (0.2ma) date', 'shock (0.3ma) date', 'irritability 1 collection', 'irritability 1 date', 'irritability 2 collection', 
-    'irritability 2 date',  'von frey 1 collection', 'von frey 1 date', 'von frey 2 collection', 'von frey 2 date',
+    'short access end date', 'pre-shock date', 'shock (0.1ma) date', 'shock (0.2ma) date', 'shock (0.3ma) date',
+    'female swab 1 collection', 'female swab 1 date', 'female swab 1 analysis', 'female swab 2 collection', 'female swab 2 date', 'female swab 2 analysis', 'female swab 3 collection', 'female swab 3 date', 'female swab 3 analysis',
+    'irritability 1 collection', 'irritability 1 date', 'irritability 2 collection', 'irritability 2 date',  'von frey 1 collection', 'von frey 1 date', 'von frey 2 collection', 'von frey 2 date',
     'tail immersion 1 collection', 'tail immersion 1 date', 'tail immersion 2 collection', 'tail immersion 2 date', 'tail immersion 3 collection', 'tail immersion 3 date', 'lga pre-treatment 1 date', 'lga pre-treatment 2 date', 
-    'lga pre-treatment 3 date', 'lga pre-treatment 4 date', 'lga post treatment 1', 'lga post treatment 2', 'lga post treatment 3', 'lga post treatment 4', 'progressive ratio 1 date', 'progressive ratio 2 date', 'progressive ratio 3 date', 
+    'lga pre-treatment 3 date', 'lga pre-treatment 4 date', 'lga post treatment 1 date', 'lga post treatment 2 date', 'lga post treatment 3 date', 'lga post treatment 4 date', 'progressive ratio 1 date', 'progressive ratio 2 date', 'progressive ratio 3 date', 
     'treatment 1 date', 'treatment 1 group', 'treatment 1 start time', 'treatment 2 date', 'treatment 2 group', 'treatment 2 start time', 'treatment 3 date', 'treatment 3 group', 'treatment 3 start time',
-    'coat color', 'd.o.b', 'date of eye bleed', 'date of ship', 'date of wean', 'age at dissection', 'dissection group', 'dissection date', 'ear punch', 'group for pre-shock',
+    'treatment 4 date', 'treatment 4 group', 'treatment 4 start time' , 'coat color', 'd.o.b', 'date of eye bleed', 'date of ship', 'date of wean', 'age at dissection', 'dissection group', 'dissection date', 'ear punch', 'group for pre-shock',
     'group for shock', 'handled collection', 'litter number', 'litter size', 'rack', 'recatheter surgeon', 'recatheter surgery date', 'shipping box', 'surgeon', 'surgery assist', 'surgery date',
     'age at surgery', 'date of death', 'days of experiment', 'exit day', 'last good session', 'exit code', 'complete', 'tissue collected', 'exit notes', 'replaced by'
 ]
 
-final_measurements_list = [
-    {'measurement_name': 'urine', 'col_name': 'Urine', 'counts': [i for i in range(1, 3)], 'col_suffix': ['Date', 'Collection']},
-    {'measurement_name': 'female_swab', 'col_name': 'Female Swab', 'counts': [i for i in range(1, 4)], 'col_suffix': ['Date', 'Collection', 'Analysis']},
-    {'measurement_name': 'weight', 'col_name': 'Weight', 'counts': [i for i in range(1, 13)], 'col_suffix': ['Value', 'Date']},
-    {'measurement_name': 'feces', 'col_name': 'Feces', 'counts': [i for i in range(1, 5)], 'col_suffix': ['Date', 'Collection']},
+# final_measurements_list = [
+#     {'measurement_name': 'urine', 'col_name': 'Urine', 'counts': [i for i in range(1, 3)], 'col_suffix': ['Date', 'Collection']},
+#     {'measurement_name': 'female_swab', 'col_name': 'Female Swab', 'counts': [i for i in range(1, 4)], 'col_suffix': ['Date', 'Collection', 'Analysis']},
+#     {'measurement_name': 'weight', 'col_name': 'Weight', 'counts': [i for i in range(1, 13)], 'col_suffix': ['Value', 'Date']},
+#     {'measurement_name': 'feces', 'col_name': 'Feces', 'counts': [i for i in range(1, 5)], 'col_suffix': ['Date', 'Collection']},
+# ]
+
+measurement_table_cols = [
+    'rfid', 'measurement_name', 'measurement_value', 'drug_group', 'cohort', 'measure_number', 'date_measured', 'technician'
 ]
 
 CHARACTERISTIC_TABLE_COLUMNS_COUNT = len(final_characteristics_list)
