@@ -21,17 +21,7 @@ class CohortProcess:
         self.df_exit_tab = self.get_df_excel_file(self.df_sheets['Exit Tab'])
         self.df_exit_tab = self.df_exit_tab.drop(['rat', 'cohort'], axis=1)
 
-        # Left join for timeline and exit tab sheets to add details on deaths and replacements
         self.df_final = pd.merge(self.df_timeline, self.df_exit_tab, how='left', on='rfid')
-        # Testing to replace 'nan' values with None to solve type errors from inserting into DB
-        # self.df_final =  self.df_final.where(self.df_final.notnull(), None)
-        # self.df_final.replace('nan', None)
-        # self.df_final.fillna(np.nan).replace([np.nan], [-100])
-
-        # Another attempt to fix types 
-        # list_integer_cols = ['cohort', 'litter number', 'litter size', 'shipping box']
-        # self.df_final[list_integer_cols] = self.df_final[list_integer_cols].astype(int)
-
  
     def get_df_excel_file(self, df: pd.DataFrame):
         '''
@@ -39,7 +29,6 @@ class CohortProcess:
             into datetime objects for easier processing into the database and other necessarily format handling.
             Converted all column names to be lowercase
         '''
-        
         df['RFID'] = df['RFID'].astype(str)
         df.columns = (df.columns.str.replace(u'\xa0', u'')).str.strip()
         df.columns = df.columns.str.lower()
@@ -52,10 +41,8 @@ class CohortProcess:
     def insert_subject(self, subject: Subject):
         subject.process_characteristics()
         subject.insert_characteristics()
-        # print(f'FINISHED INSERTING CHARACTERISITCS FOR {subject}')
         subject.process_measurements()
         subject.insert_measurements()
-        # print(f'FINISHED INSERTING MEASUREMENTS FOR {subject}')
 
     def insert_cohort(self):
         '''
@@ -66,7 +53,6 @@ class CohortProcess:
             self.insert_subject(subject)
             subject.conn.close()
         
-
 def main():
     for cocaine_cohort in COCAINE_COHORT_ALL:
         print(f'NAME OF THE COCAINE COHORT IS: {cocaine_cohort}')
@@ -76,8 +62,6 @@ def main():
         print(f'NAME OF THE OXY COHORT IS: {oxy_cohort}')
         cohort = CohortProcess(oxy_cohort, "oxycodone")
         cohort.insert_cohort()
-
-
 
 if __name__ == '__main__':
     main()

@@ -27,19 +27,11 @@ class Subject(Pipeline):
             Get all the information about the subject
             that isn't a measurement
         '''
-
         for characteristic in final_characteristics_list:
-            
             characteristic_value = self.subject_row.get(characteristic, default=None)
             if 'date' in characteristic.lower() or 'exit day' in characteristic.lower():
                 self.characteristics[characteristic] = self.format_date(characteristic_value)
-            # Assign multiple values into list
             elif any(technician_col in characteristic.lower() for technician_col in ['collection']):
-                # Checking the format of each column with comma-separated values for error
-                # print(f'The characteristic is {characteristic}')
-                # print(f'Characteristics value is {characteristic_value}')
-                # print(f'Its type is {type(characteristic_value)}')
-                # self.characteristics[characteristic] = self.format_multiple_values_into_array(characteristic_value)
                 self.characteristics[characteristic] = characteristic_value
             else:
                 self.characteristics[characteristic] = characteristic_value
@@ -70,21 +62,17 @@ class Subject(Pipeline):
                 
                 for suffix in suffixes:
                     # This is used to query for the value of a specific column referencing a measurement value for the current subject (row)
-                    # TODO: Strip is to account for columns whose value that are denoted by empty str instead of 'Value'
                     full_col_name = ' '.join([col_name, str(current_number), suffix]).strip()
                     full_col_name = full_col_name.lower()
                     if suffix == 'Value' or suffix == 'Analysis':
                         m_val =  self.subject_row.get(full_col_name, default=None)
-                        # print(type(m_val))
-                        # print(m_val)
                         insert_dict['measurement_value'] = int(m_val) if not math.isnan(m_val) else None
                     elif suffix == 'By' or suffix == 'Collection':
-                        # insert_dict['technician'] = self.format_multiple_values_into_array(self.subject_row.get(full_col_name, default=None))
+                        # Storing multiple technicians as csv for ease of reversal
                         insert_dict['technician'] = self.subject_row.get(full_col_name)
                     elif suffix == 'Date':
                         insert_dict['date_measured'] = self.format_date(self.subject_row.get(full_col_name))
                 self.measurements.append(insert_dict)
-        # print(self.measurements)
         return 
 
     @staticmethod
@@ -129,21 +117,15 @@ class Subject(Pipeline):
     def insert_characteristics(self):
         sql_string, sql_string_values = self.construct_characteristic_sql_string()
         sql_string_values = [val if val != "nan" else None for val in sql_string_values]
-        # for characteristic, val in zip(final_characteristics_list, sql_string_values):
-        #     print(f'{characteristic} : {val}')
         self.cur.execute(sql_string, sql_string_values)
-        # self.cur.execute(f"SELECT * FROM {CHARACTERISTIC_TABLE_NAME};")
         self.conn.commit()
-        # self.cur.close()
 
     def insert_measurements(self):
-        # sql_string, sql_string_values = self.construct_measurement_sql_string()
         for m_row in self.measurements:
             sql_string, sql_string_values = self.construct_measurement_sql_string(m_row)
             sql_string_values = [val if val != "nan" else None for val in sql_string_values]
             self.cur.execute(sql_string, sql_string_values)
             self.conn.commit()
-        # self.cur.close()
 
 
         

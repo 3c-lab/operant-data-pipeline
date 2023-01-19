@@ -137,7 +137,6 @@ cocaine_characteristics_list = [
 
 cocaine_measurements_list = [
     {'measurement_name': 'urine', 'col_name': 'Urine', 'counts': [i for i in range(1, 3)], 'col_suffix': ['Date', 'Collection']},
-    # {'measurement_name': 'female_swab', 'col_name': 'Female Swab', 'counts': [i for i in range(1, 4)], 'col_suffix': ['Date', 'Collection']},
     {'measurement_name': 'weight', 'col_name': 'Weight', 'counts': [i for i in range(1, 11)], 'col_suffix': ['Value', 'Date']},
     {'measurement_name': 'feces', 'col_name': 'Feces', 'counts': [i for i in range(1, 5)], 'col_suffix': ['Date', 'Collection']},
 ]
@@ -290,7 +289,6 @@ oxycodone_characteristics_list = [
 
 oxycodone_measurements_list = [
     {'measurement_name': 'urine', 'col_name': 'Urine', 'counts': [i for i in range(1, 3)], 'col_suffix': ['Date', 'Collection']},
-    # {'measurement_name': 'female_swab', 'col_name': 'Female Swab', 'counts': [i for i in range(1, 4)], 'col_suffix': ['Date', 'Collection', 'Analysis']},
     {'measurement_name': 'weight', 'col_name': 'Weight', 'counts': [i for i in range(1, 13)], 'col_suffix': ['Value', 'Date']},
     {'measurement_name': 'feces', 'col_name': 'Feces', 'counts': [i for i in range(1, 4)], 'col_suffix': ['Date', 'Collection']},
 ]
@@ -313,13 +311,6 @@ final_characteristics_list = [
     'group for shock', 'handled collection', 'litter number', 'litter size', 'rack', 'recatheter surgeon', 'recatheter surgery date', 'shipping box', 'surgeon', 'surgery assist', 'surgery date',
     'age at surgery', 'date of death', 'days of experiment', 'exit day', 'last good session', 'exit code', 'complete', 'tissue collected', 'exit notes', 'replaced by'
 ]
-
-# final_measurements_list = [
-#     {'measurement_name': 'urine', 'col_name': 'Urine', 'counts': [i for i in range(1, 3)], 'col_suffix': ['Date', 'Collection']},
-#     {'measurement_name': 'female_swab', 'col_name': 'Female Swab', 'counts': [i for i in range(1, 4)], 'col_suffix': ['Date', 'Collection', 'Analysis']},
-#     {'measurement_name': 'weight', 'col_name': 'Weight', 'counts': [i for i in range(1, 13)], 'col_suffix': ['Value', 'Date']},
-#     {'measurement_name': 'feces', 'col_name': 'Feces', 'counts': [i for i in range(1, 5)], 'col_suffix': ['Date', 'Collection']},
-# ]
 
 measurement_table_cols = [
     'rfid', 'measurement_name', 'measurement_value', 'drug_group', 'cohort', 'measure_number', 'date_measured', 'technician'
