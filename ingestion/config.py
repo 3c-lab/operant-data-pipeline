@@ -3,7 +3,6 @@ import pandas as pd
 from os.path import join, dirname
 from dotenv import load_dotenv
 
-
 dotenv_path = join(dirname(dirname(__file__)), '.env')
 load_dotenv(dotenv_path)
 
@@ -267,7 +266,6 @@ oxycodone_excel_converters = {
     # 'Days of Experiment', 'Reason for Removal from Study', 'Was Replaced', 'Replaced', 'Last Session'
 }
 
-
 oxycodone_characteristics_list = [
     'Rat', 'RFID', 'Cohort', 'Sex', 'D.O.B', 'Coat Color', 'Ear Punch', 'Shipping Box', 
     'Date of Wean', 'Date of Ship', 'Litter Number', 'Litter Size', 'Rack', 
@@ -317,10 +315,3 @@ measurement_table_cols = [
 ]
 
 CHARACTERISTIC_TABLE_COLUMNS_COUNT = len(final_characteristics_list)
-
-
-
-
-
-
-

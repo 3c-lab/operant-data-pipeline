@@ -10,7 +10,7 @@ from dash import dcc, html
 from dash.dependencies import Input, Output, State
 
 from data_cleaning import *
-
+# filter unnecessary warnings
 warnings.filterwarnings("ignore")
 
 #----------Preparing data------------------------------------------------------------
