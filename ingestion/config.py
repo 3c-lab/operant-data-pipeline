@@ -60,8 +60,8 @@ TRIAL_PR_FILES = (
 TRIAL_SHOCK_PATH_A = '/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHOCK'
 TRIAL_SHOCK_PATH_B = '/Users/yunyihuang/Desktop/gl_data/GEORGE/COC_SHOCK'
 TRIAL_SHOCK_FILES = (
-    [os.path.join(TRIAL_SHOCK_PATH_A, i) for i in sorted(os.listdir(TRIAL_SHOCK_PATH_A)) if (i != '.DS_Store')]
-    +
+    #[os.path.join(TRIAL_SHOCK_PATH_A, i) for i in sorted(os.listdir(TRIAL_SHOCK_PATH_A)) if (i != '.DS_Store')]
+    # +
     [os.path.join(TRIAL_SHOCK_PATH_B, i) for i in sorted(os.listdir(TRIAL_SHOCK_PATH_B)) if (i != '.DS_Store')]
 )
 

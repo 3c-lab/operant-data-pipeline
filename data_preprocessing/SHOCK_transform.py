@@ -7,14 +7,22 @@ import os
 from tqdm import tqdm
 
 # RFID tables for merge
-df_rfid_coc = pd.read_csv('rfid_cocaine.csv', index_col=0)
+df_rfid_coc = pd.read_csv('/Users/yunyihuang/Desktop/DataStream/data_preprocessing/rfid_cocaine.csv', index_col=0)
+
+def reformat_shock_id(shock_id, cohort):
+    if 'PRESHOCK' in shock_id:
+        return 'PRESHOCK'
+    elif cohort in range(1,6):
+        return 'SHOCK' + '_V' + str(int(shock_id[5:]))
+    else:
+        return 'SHOCK_V3'
 
 def transform_shock(input_path, file, parsers):
     # import data and transpose
     filepath = os.path.join(input_path, file)
     df_raw = pd.read_excel(filepath)
     
-    # ?
+    # remove extra
     num_subjects = len(set([i for i in df_raw.iloc[5,:].values if isinstance(i, int)]))
     if df_raw.shape[1] > num_subjects+1:
         df_raw = df_raw.iloc[:,:num_subjects+1]
@@ -56,18 +64,21 @@ def transform_shock(input_path, file, parsers):
     
     df.drop(df.iloc[:, reward_shock_begin:reward_col_end+1], inplace=True, axis=1)
     
+    modified_filename = file.replace('-','0')
     # parse the file name
     if file[0] == 'C':
         parser = parsers[1]
-        cohort, trial_id = re.findall(parser, file)[0]
+        cohort, shock_id = re.findall(parser, modified_filename)[0]
         room = 'N/A'
     else:
         parser = parsers[0]
-        room, cohort, trial_id = re.findall(parser, file)[0]
+        room, cohort, shock_id = re.findall(parser, modified_filename)[0]
+    
+    cohort = int(cohort[1:])
+    trial_id = reformat_shock_id(shock_id, cohort)
 
     df['Room'] = [room] * len(df)
     df['Cohort'] = [cohort] * len(df)
-    df['Cohort'] = df['Cohort'].apply(lambda x: int(x[1:]))
     df['Trial ID'] = [trial_id] * len(df)
     df['Drug'] = ['cocaine'] * len(df)
     
@@ -92,8 +103,8 @@ def transform_shock(input_path, file, parsers):
 
 # -----------------------------------------------------------------------------------
 if __name__ == "__main__":
-    input_path = '__file path for input excel SHOCK data__'
-    output_path = '__file path for output transformed SHOCK data__'
+    input_path = '/Users/yunyihuang/Desktop/gl_data/COCAINE/SHOCK'
+    output_path = '/Users/yunyihuang/Desktop/gl_data/TRIAL/COC_SHOCK'
     parsers = [r"(\A[A-Z]+[0-9]+[A-Z|0-9]{1})(C[0-9]{2})HS((?:PRESHOCK[0-9]*|SHOCK[0-9]*))",
                r"(\AC[0-9]{2})HS((?:PRESHOCK[0-9]*|SHOCK[0-9]*))"]
     files = [i for i in sorted(os.listdir(input_path)) if i != '.DS_Store']
