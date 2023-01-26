@@ -4,17 +4,17 @@ from TrialSubject import TrialSubject
 
 class TrialProcess:
 
-    def __init__(self, filepath, trial_id):
+    def __init__(self, filepath, table_id):
         self.filepath = filepath
         self.df = pd.read_csv(self.filepath,index_col=0)
         self.df_final = self.process_df(self.df)
-        self.trial_id = trial_id
+        self.table_id = table_id
 
  
     def process_df(self, df: pd.DataFrame):
         # placeholder method for later revision (maybe add the cleaning script to here?)
-
         dff = df[df['rfid'] != -999].reset_index(drop=True)
+        dff['drug'] = dff['drug'].str.lower()
         return dff
 
 
@@ -24,16 +24,15 @@ class TrialProcess:
 
 
     def insert_trial(self):
-        print(self.df_final)
         for index, subject_row in self.df_final.iterrows():
-            subject = TrialSubject(subject_row, self.trial_id)
+            subject = TrialSubject(subject_row, self.table_id)
             self.insert_subject(subject)
         print("INSERTED SUCCESSFUL")
         return
 
 
 def main():
-    for file in TRIAL_SHOCK_TEST:
+    for file in TRIAL_SHOCK_FILES:
         print(file)
         trial = TrialProcess(file, 'SHOCK')
         trial.insert_trial()
