@@ -316,10 +316,6 @@ measurement_table_cols = [
 
 CHARACTERISTIC_TABLE_COLUMNS_COUNT = len(final_characteristics_list)
 
-    # Saved for seoarate
-    # 'Date Excluded', 'Exclude Reason'
-]
-
 cocaine_measurements_list = [
     {'measurement_name': 'urine', 'col_name': 'Urine', 'counts': [i for i in range(1, 3)], 'col_suffix': ['Date', 'Collection']},
     {'measurement_name': 'weight', 'col_name': 'Weight', 'counts': [i for i in range(1, 11)], 'col_suffix': ['Value', 'Date']},
