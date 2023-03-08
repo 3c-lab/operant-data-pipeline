@@ -76,7 +76,7 @@ class TrialSubject(Pipeline):
         """
         for characteristic in self.final_charactersitics_list:
             characteristic_value = self.subject_row.get(characteristic, default=None)
-            if characteristic_value is not None and isinstance(characteristic_value, float):
+            if characteristic_value is not None and isinstance(characteristic_value, float) and np.isnan(characteristic_value):
                 self.characteristics[characteristic] = None
             elif characteristic_value is None:
                 self.characteristics[characteristic] = None
