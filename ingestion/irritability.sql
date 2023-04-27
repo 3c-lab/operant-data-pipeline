@@ -1,6 +1,6 @@
 create table irritability
 (
-    subjec            varchar(255),
+    subject           varchar(255),
     rfid              bigint,
     cohort            integer,
     sex               varchar(255),
@@ -37,12 +37,7 @@ create table irritability
     total_drug_ave    NUMERIC,
     diff_ave_def      NUMERIC,
     diff_ave_agg      NUMERIC,
-    diff_ave_total    NUMERIC
+    diff_ave_total    NUMERIC,
+    constraint irritability_pk
+        primary key (rfid)
 );
-
-create index irritability_rfid_index
-    on irritability (rfid);
-
-alter table irritability
-    add constraint irritability_pk
-        unique (rfid);
