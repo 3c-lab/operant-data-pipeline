@@ -57,6 +57,8 @@ create table trial_sha
 );
 
 -- PR for both COC and OXY (17 columns)
+DROP TABLE IF EXISTS [dbo].[trial_pr];
+
 CREATE TABLE trial_pr (
     rfid                   bigint,
     subject                varchar(255),
@@ -69,12 +71,12 @@ CREATE TABLE trial_pr (
     end_time               time,
     start_date             date,
     end_date               date,
+	breakpoint             integer,
     last_ratio             integer,
-    breakpoint             integer,
+	ratios                 text,
     active_lever_presses   integer,
     inactive_lever_presses integer,
     reward_presses         integer,
-    reward_timestamps      text,
     constraint trial_pr_pk
         primary key (rfid, trial_id, drug)
 )

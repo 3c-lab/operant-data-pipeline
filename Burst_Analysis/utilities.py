@@ -1,8 +1,11 @@
 import numpy as np
 import pandas as pd
 import warnings
+import datetime
+
 warnings.filterwarnings('ignore')
 from statistics import multimode
+
 from statistics import mode
 import itertools
 from openpyxl import load_workbook
@@ -12,23 +15,24 @@ from openpyxl import load_workbook
     and inter-reward interval variables.
 """
 
+
 def cleanup(filepath):
     """ This function is used to cleanup the excel output file for further analysis
 
     Args:
-        filepath (_str_): the filename of the raw excel output file
+        filepath (_type_): str
 
     Returns:
-        _pd.DataFrame_: a cleaned dataframe
+        _type_: pd.DataFrame
     """
-    #print(filepath)
+    # print(filepath)
     # import data and transpose
-    df_raw = pd.read_excel(filepath,header=None).T
+    df_raw = pd.read_excel(filepath, header=None).T
 
     # modify the header
-    new_header = df_raw.iloc[0]   #grab the first row for the header
-    df = df_raw[1:]               #take the data except the header row
-    df.columns = new_header 
+    new_header = df_raw.iloc[0]  # grab the first row for the header
+    df = df_raw[1:]  # take the data except the header row
+    df.columns = new_header
     df.reset_index(drop=True, inplace=True)
 
     # add new column for visualization 
@@ -37,7 +41,7 @@ def cleanup(filepath):
     df['Timeout'] = (df['Active Lever Presses'] - df['Reward']).astype('int32')
 
     # drop unnecessary columns
-    df.drop(['Start Date','Start Time','End Date','End Time'], axis=1, inplace=True)
+    df.drop(['Start Date', 'Start Time', 'End Date', 'End Time'], axis=1, inplace=True)
 
     # change data types
     cols = df.columns.tolist()
@@ -45,10 +49,10 @@ def cleanup(filepath):
         name = col.lower()
         if ('active' in name) or ('reward' in name) or ('timeout' in name):
             df[col] = df[col].astype('int32')
-            df[col] = df[col].replace(0,np.nan)
+            df[col] = df[col].replace(0, np.nan)
         else:
             pass
-        
+
     # drop columns which all values are Nan
     df.dropna(how='all', axis=1, inplace=True)
 
@@ -57,15 +61,13 @@ def cleanup(filepath):
     new_columns.insert(0, new_columns.pop(new_columns.index('Subject')))
     new_columns.insert(1, new_columns.pop(new_columns.index('Start Datetime')))
     new_columns.insert(2, new_columns.pop(new_columns.index('End Datetime')))
-
-    # reorder the columns
     idx = new_columns.index('Reward') + 1
     new_columns.insert(idx, new_columns.pop(new_columns.index('Timeout')))
 
     # fill the nan with 0
     df = df[new_columns]
-    df.fillna(0,inplace=True)
-    #print('CLEANING COMPLETED')
+    df.fillna(0, inplace=True)
+    # print('CLEANING COMPLETED')
     # output the result dataframe
     return df
 
@@ -84,19 +86,16 @@ def get_mode(lst):
     return mode(lst)
 
 
-def get_bursts(lst, duration=120):
+def get_bursts(lst, interval=90):
     """ This function retrieves the "bursts" (cluster of rewards happened within 2 mins) from rewards
 
     Args:
-        lst (list): list of the timestamps (Nth second)
-        duration (int): the duration of the bursts, default to 120 seconds
+        lst (_type_): list of int
 
     Returns:
         _type_: 2d list
     """
-    interval = duration # the interval in seconds
     allBursts = []
-
     i = 0
     while i < len(lst):
         oneBurst = []
@@ -104,10 +103,10 @@ def get_bursts(lst, duration=120):
         j = i
         while j < len(lst) and lst[j] <= limit:
             oneBurst.append(lst[j])
+            limit = lst[j] + interval
             j += 1
         allBursts.append(oneBurst)
         i = j
-        
     return allBursts
 
 
@@ -123,11 +122,11 @@ def get_mean_num_rewards(lst):
     bursts = [i for i in lst if len(i) > 1]
     total_rewards = len(list(itertools.chain.from_iterable(bursts)))
     total_bursts = len(bursts)
-    
-    if total_bursts == 0: 
+
+    if total_bursts == 0:
         return 0
-    
-    return round(total_rewards / total_bursts,2)
+
+    return round(total_rewards / total_bursts, 2)
 
 
 def get_burst_rewards_pct(lst):
@@ -144,7 +143,7 @@ def get_burst_rewards_pct(lst):
         return np.NaN
     bursts = [i for i in lst if len(i) > 1]
     numBurstRewards = len(list(itertools.chain.from_iterable(bursts)))
-    return round(numBurstRewards/numRewards,2) * 100 
+    return round(numBurstRewards / numRewards * 100, 2)
 
 
 def get_max_burst(lst):
@@ -166,21 +165,21 @@ def calculations_single(df):
     """ This function returns the dataframe of all the calculated variables (original version)
 
     Args:
-        df (_type_): pd.DataFrame, cleaned dataframe processed in the cleanup function
+        df (_type_): pd.DataFrame
 
     Returns:
         _type_: pd.DataFrame
     """
     # combine all reward timestamp into a column of lists
     filtered_cols = ['Subject'] + [col for col in df.columns if 'Reward ' in col]
-    df_reward = df[filtered_cols][df.Subject!=0].sort_values('Subject').reset_index().drop('index',axis=1)
-    df_reward['allRewards'] = df_reward.iloc[:,1:].values.tolist()
+    df_reward = df[filtered_cols].sort_values('Subject').reset_index().drop('index', axis=1)
+    df_reward['allRewards'] = df_reward.iloc[:, 1:].values.tolist()
 
     # get the filtered df
     dff = df_reward[['Subject', 'allRewards']]
 
     # retrieve the inter-reward intervals, filtering out negatives
-    dff['Intervals'] = dff['allRewards'].apply(lambda lst:[j-i for i, j in zip(lst[:-1], lst[1:])])
+    dff['Intervals'] = dff['allRewards'].apply(lambda lst: [j - i for i, j in zip(lst[:-1], lst[1:])])
     dff['cleanedIntervals'] = dff['Intervals'].apply(lambda lst: [val for val in lst if val > 0])
 
     # calculate needed traits related to the inter-reward intervals
@@ -194,10 +193,7 @@ def calculations_single(df):
 
     # retrieve the "bursts" (cluster of rewards happened within 2 mins) from rewards 
     dff['rawBurst'] = dff['cleanedRewards'].apply(get_bursts)
-    # if want to change the burst duration:
-    # e.g. for 3-minute burst, this line should look like
-    # dff['rawBurst'] = dff['cleanedRewards'].apply(lambda x: get_bursts(x,duration=180))
-    dff['numBurst'] = dff['rawBurst'].apply(lambda x: len([i for i in x if len(i)>1]))
+    dff['numBurst'] = dff['rawBurst'].apply(lambda x: len([i for i in x if len(i) > 1]))
 
     # get the mean number of rewards across all the bursts
     dff['meanNumRewards'] = dff['rawBurst'].apply(get_mean_num_rewards)
@@ -209,9 +205,10 @@ def calculations_single(df):
     dff['maxBurst'] = dff['rawBurst'].apply(get_max_burst)
 
     # select needed columns for output df
-    output_cols = ['Subject', 'meanInterval', 'stdInterval', 'modeInterval','meanNumRewards', 'numBurst', 'maxBurst', 'pctRewards']
+    output_cols = ['Subject', 'meanInterval', 'stdInterval', 'modeInterval', 'meanNumRewards', 'numBurst', 'maxBurst',
+                   'pctRewards']
     dff_out = dff[output_cols]
-    
+
     return dff_out
 
 
@@ -228,79 +225,58 @@ def get_sheetnames_xlsx(file_name):
     return wb.sheetnames
 
 
-def one_calculation(file_name, sheet_name, rats):
-    """ This function returns the dataframe of all the calculated variables (VK version)
+def filtered_reward(df):
+    """This function returns a df that contains reward latency, all rewards, intervals, and cleaned intervals
 
     Args:
-        file_name (_str_): the name of the excel workbook
-        sheet_name (_str_): 1 sheetname from all sheetnames within the chosen workbook
-        rats (_str_): all the rats in the chosen cohort 
+        df (_type_): pd.DataFrame
 
     Returns:
         _type_: pd.DataFrame
     """
-    # read excel sheet
-    df = pd.read_excel(file_name, sheet_name=sheet_name).T
-    
-    # reset header
-    new_header = df.iloc[0]
-    df = df[1:]
-    df.columns = new_header
+    filtered_cols = ['Subject'] + [col for col in df.columns if 'Reward ' in col]
+    df_reward = df[filtered_cols].sort_values('Subject').reset_index().drop('index', axis=1)
+    df_reward['allRewards'] = df_reward.iloc[:, 1:].values.tolist()
+    df_reward['Latency'] = df_reward['Reward 1']
+    df_filtered = df_reward[['Subject', 'Latency', 'allRewards']]
+    df_filtered['Intervals'] = df_filtered['allRewards'].apply(lambda lst: [j - i for i, j in zip(lst[:-1], lst[1:])])
+    df_filtered['cleanedIntervals'] = df_filtered['Intervals'].apply(lambda lst: [val for val in lst if val > 0][:-1])
 
-    # filter rows and columns
-    rats = list(set(rats) & set(list(df.index))) # get the intersection
-    df = df.loc[rats]
-    col_reward = [col for col in df.columns if 'V' in col] # V for reward timestamp
-    df = df[col_reward]
+    return df_filtered
 
-    # drop zeros
-    df.replace(0, np.NaN, inplace=True)
-    df.dropna(how='all', axis=1, inplace=True)
-    df.replace(np.NaN, 0, inplace=True)
-    df.reset_index(inplace=True)
-    
-    # group all rewards
-    df['allRewards'] = df.iloc[:,1:].values.tolist()
-    
-    # get the filtered df
-    dff = df[['index','allRewards']]
-    
-    # retrieve the inter-reward intervals, filtering out negatives
-    dff['Intervals'] = dff['allRewards'].apply(lambda lst:[j-i for i, j in zip(lst[:-1], lst[1:])])
-    dff['cleanedIntervals'] = dff['Intervals'].apply(lambda lst: [val for val in lst if val > 0])
-    
-    # calculate needed traits related to the inter-reward intervals
-    dff['meanInterval'] = dff['cleanedIntervals'].apply(lambda x: round(np.mean(x), 2))
-    dff['stdInterval'] = dff['cleanedIntervals'].apply(lambda x: round(np.std(x), 2))
-    dff['modeInterval'] = dff['cleanedIntervals'].apply(get_mode)
-    
-    # filtering the rewards (zero values)
-    dff['cleanedRewards'] = dff['allRewards'].apply(lambda lst: [val for val in lst if val > 0])
-    dff['totalRewards'] = dff['cleanedRewards'].apply(lambda x: len(x))
-    
-    # retrieve the "bursts" (cluster of rewards happened within 2 mins) from rewards 
-    dff['rawBurst'] = dff['cleanedRewards'].apply(get_bursts)
-    # if want to change the burst duration:
-    # e.g. for 3-minute burst, this line should look like
-    # dff['rawBurst'] = dff['cleanedRewards'].apply(lambda x: get_bursts(x,duration=180))
-    dff['numBurst'] = dff['rawBurst'].apply(lambda x: len([i for i in x if len(i)>1]))
-    
-    # get the mean number of rewards across all the bursts
-    dff['meanNumRewards'] = dff['rawBurst'].apply(get_mean_num_rewards)
-    # get the percentage of rewards that fall in burst out of all the rewards
-    dff['pctRewards'] = dff['rawBurst'].apply(get_burst_rewards_pct)
-    # get the maximum number of rewards contain in a single burst in one session
-    dff['maxBurst'] = dff['rawBurst'].apply(get_max_burst)
-    
-    # select needed columns for output df
-    output_cols = ['index', 'meanInterval', 'stdInterval', 'modeInterval','meanNumRewards', 'numBurst', 'maxBurst', 'pctRewards']
-    dff_out = dff[output_cols]
-    
-    # rename one column
-    dff_out.rename(columns={"index": "subject"},inplace=True)
-    
-    # add trial id
-    trial_id = re.findall(r'((?:SHA|LGA)[0-9]+)',sheet_name.upper())[0]
-    dff_out['trial_id'] = [trial_id] * len(dff_out)
-    
-    return dff_out
+
+def unify_date(timestamp):
+    """unifies the date of the timestamp for 'Start' and 'End' column in the timeline_data
+
+    Args:
+        timestamp (_type_): _description_
+
+    Returns:
+        _type_: Timestamp
+    """
+    date = pd.Timestamp("2000-01-01")
+    time = timestamp.time()
+    return pd.to_datetime(datetime.datetime.combine(date, time))
+
+
+def unstack_data(df):
+    rows = []
+    rfids = [i for i in df.rfid.unique()]
+
+    for rfid in rfids:
+        temp = df[df.rfid==rfid]
+        temp = temp.reset_index(drop=True)
+        temp.sort_values(['trial_id'],inplace=True)
+        temp.set_index('trial_id',inplace=True)
+        temp_row = temp.iloc[:,1:].unstack().to_frame().sort_index(level=1).T
+        temp_row.insert(loc=0, column='rfid', value=temp.rfid.unique())
+        temp_row = temp_row.reset_index(drop=True)
+        rows.append(temp_row)
+        
+    return rows
+
+
+def deserialize_data(ts):
+    if pd.isnull(ts):
+        return []
+    return [float(i) for i in ts.split()]

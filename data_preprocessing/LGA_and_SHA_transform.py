@@ -7,6 +7,9 @@ warnings.filterwarnings('ignore')
 import os
 from tqdm import tqdm
 
+RFID_COC = pd.read_csv('rfid_cocaine.csv', index_col=0)
+RFID_OXY = pd.read_csv('rfid_oxycodone.csv', index_col=0)
+
 def transform_data(file, input_path, output_path, parsers, drug):
     # import data and transpose
     filepath = os.path.join(input_path, file)
@@ -50,7 +53,7 @@ def transform_data(file, input_path, output_path, parsers, drug):
     timestamp_col_begin = df.columns.tolist().index('Active Timestamps')
     df.drop(df.iloc[:, active_col_begin:timestamp_col_begin], inplace=True, axis=1)
     df.rename(columns={"Reward": "Reward Presses"}, inplace=True)
-    df['Timeout Presses'] = df['Timeout Timestamps'].apply(lambda x: len([i for i in x if i != 0]))
+    df['Timeout Presses'] = df['Active Lever Presses'] - df['Reward Presses']
 
     # parse the filename
     if file[0] == 'C':

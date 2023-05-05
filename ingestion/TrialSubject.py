@@ -1,4 +1,5 @@
 import math
+import numpy as np
 from config import *
 from collections import defaultdict
 from pipeline import Pipeline
@@ -50,6 +51,7 @@ class TrialSubject(Pipeline):
         Returns:
             _string_: serialized timestamps data
         """
+
         timestamp_list = literal_eval(string_of_timestamps)
 
         # if timestamp_list is empty
@@ -74,9 +76,11 @@ class TrialSubject(Pipeline):
         """
         for characteristic in self.final_charactersitics_list:
             characteristic_value = self.subject_row.get(characteristic, default=None)
-            if characteristic.lower() in integer_columns:
-                self.characteristics[characteristic] = int(characteristic_value)
-            elif (("timestamps" in characteristic.lower()) or (characteristic.lower() in ['reward_points', 'rewards_got_shock'])): 
+            if characteristic_value is not None and isinstance(characteristic_value, float) and np.isnan(characteristic_value):
+                self.characteristics[characteristic] = None
+            elif characteristic_value is None:
+                self.characteristics[characteristic] = None
+            elif (("timestamps" in characteristic.lower()) or (characteristic.lower() in ['ratios', 'rewards_got_shock'])): 
                 # columns that contain list data
                 self.characteristics[characteristic] = self.serialize_timestamps(characteristic_value)
             else: 
