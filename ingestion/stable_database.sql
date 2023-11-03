@@ -643,6 +643,8 @@ Create table stable_database(
     von_frey_1_date DATE,
     von_frey_2_date DATE,
     shock_3_date DATE,
+    total_intake integer,
+    shock_percent_rewards float,
     constraint stable_database_pk
     primary key (rfid)
 );
