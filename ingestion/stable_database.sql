@@ -645,6 +645,9 @@ Create table stable_database(
     shock_3_date DATE,
     total_intake integer,
     shock_percent_rewards float,
+    add_ind_oliver_quartile int,
+    ai_s_quartile int,
+    ai_sc_quartile int,
     constraint stable_database_pk
     primary key (rfid)
 );
