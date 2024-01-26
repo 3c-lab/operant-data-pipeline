@@ -643,11 +643,15 @@ Create table stable_database(
     von_frey_1_date DATE,
     von_frey_2_date DATE,
     shock_3_date DATE,
-    total_intake integer,
+    total_intake_lga integer,
+    total_intake_sha integer,
     shock_percent_rewards float,
     add_ind_oliver_quartile int,
     ai_s_quartile int,
     ai_sc_quartile int,
+    esc_sha int,
+    esc_sha_i_s int,
+    esc_sha_i_sc int,
     constraint stable_database_pk
     primary key (rfid)
 );
