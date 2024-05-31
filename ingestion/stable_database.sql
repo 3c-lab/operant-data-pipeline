@@ -629,7 +629,7 @@ Create table stable_database(
     lga_behavior_stability_11_14 FLOAT,
     lga_behavior_stability_11_14_na FLOAT,
     shock_03 FLOAT,
-    shock_03_avg1h FLOAT,
+    shock_percentage_pre FLOAT,
     shock_03_pre FLOAT,
     irr_agg_change FLOAT,
     irr_def_change FLOAT,
