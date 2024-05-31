@@ -105,5 +105,6 @@ CREATE TABLE subject (
     complete varchar(255),
     tissue_collected varchar(255),
     exit_notes text,
-    replaced_by varchar(255)
+    replaced_by varchar(255),
+    decision text
 )
