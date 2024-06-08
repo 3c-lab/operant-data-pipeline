@@ -17,6 +17,7 @@ Create table raw_database(
     brevital varchar(255),
     last_good_session varchar(255),
     replaced_by varchar(255),
+    decision text,
     coat_color VARCHAR(255),
     ear_punch VARCHAR(255),
     litter_number integer,
