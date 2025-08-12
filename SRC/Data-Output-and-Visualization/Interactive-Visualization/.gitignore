@@ -1,0 +1,9 @@
+.env
+*.code-workspace
+.DS_Store
+venv/
+*.egg-info/
+.toml
+config.py
+.vscode
+.ipynb_checkpoints
