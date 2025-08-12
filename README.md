@@ -38,4 +38,6 @@ If you use this code (until the paper above is published/this section updated), 
 }
 ```
 
-## Workflow Diagrom
+## Workflow Diagram
+[Figure 1.pdf](https://github.com/user-attachments/files/21726314/Figure.1.pdf)
+
