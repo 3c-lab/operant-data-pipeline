@@ -49,5 +49,7 @@ The sourcecode (SRC) folder contains the code for the different subsections:
   - Interactive Visualization: to generate a web-based dashboard hosted via pythonanywhere providing real-time visualization of Excel output files
   - Backup database: to generate a CSV backup of the relational database from Azure to Dropbox using AzCopy
   - Tableau templates
+ 
+Examples and template files are available in those specific folders.
 
 
