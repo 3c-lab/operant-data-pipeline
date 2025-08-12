@@ -1,9 +1,0 @@
-8/26/2022:
-
-    Have to include exit tab sheet in the excel file. The change will be to get both of those sheets separately to then join them together
-    but exclude duplicate columns. Even if this is taken care of by pandas join, we will exclude the RAT id as that already exists in the
-    subject table. Also, there may be mismatch errors between the timeline and exit tab sheet. Will also exclude cohort
-
-    - Filter out RAT id from exit tab to join
-    - Filter out cohort
-        - Modify the existing rat information sheets to include cohort number
