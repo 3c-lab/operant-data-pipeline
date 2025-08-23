@@ -49,7 +49,6 @@ The source code (**SRC**) folder contains the code for the different subsections
   - Behavior Analysis Automation and Graph Generation: to generate a cohort behavior summary excel file and visual behavioral traces based on the excel output file, cohort information file, daily issues and exit file.
   - Interactive Visualization: to generate a web-based dashboard hosted via pythonanywhere providing real-time visualization of Excel output files
   - Backup database: to generate a CSV backup of the relational database from Azure to Dropbox using AzCopy
-  - Tableau templates
  
 
 
