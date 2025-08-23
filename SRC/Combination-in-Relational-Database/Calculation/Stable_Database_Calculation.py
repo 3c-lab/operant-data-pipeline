@@ -17,7 +17,7 @@ import math
 # COMMAND ----------
 
 database = pd.read_csv('/dbfs/mnt/testmount/combined_table/database_combined.csv')
-database_naive = database[(database['complete']=='No')|(database['experiment_group']!='Drug')]
+database_naive = (database['experiment_group']!='Drug')]
 database = database[(database['complete']!='No')&(database['experiment_group']=='Drug')]
 
 # COMMAND ----------
