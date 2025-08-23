@@ -1,4 +1,5 @@
-## Python anywhere web interface 
+ ## Python anywhere web interface
 
-![Screenshot1](Screenshot1.png)
-![Screenshot2](Screenshot2.png)
+![Screenshot 1](Screenshot1.png)
+![Screenshot 2](Screenshot2.png)
+
