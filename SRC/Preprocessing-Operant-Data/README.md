@@ -1,4 +1,4 @@
-## README
+## Preprocessing-Operant-Data
 
 MedPC session TXT files are automatically converted into a custom Excel output file using the open-source extraction tool for Med-PC data, [GEToperant] (https://github.com/George-LabX/GEToperant), code from which can be found in the **getoperant_source folder**, profiles for it are in the **getoperant_profiles folder**
 
