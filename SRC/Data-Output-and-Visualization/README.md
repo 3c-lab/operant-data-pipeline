@@ -1,4 +1,4 @@
-##Data-Output-and-Visualization
+## Data-Output-and-Visualization
 
 The processed data on Dropbox or Azure Datalake can be utilized in various ways to simplify working with the data by through its output and visualization, a number of downstream projects are documented here, incl: 
 
