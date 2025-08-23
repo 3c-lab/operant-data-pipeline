@@ -10,4 +10,4 @@
 8.	Example of a Standardized Excel file for irritability-like behavior using bottle brush tests saved in its designated directory on Dropbox
 9.	Example of a Behavior file, a summary of the operant data per cohort, which is automatically updated daily with the new processed data and comments from the Cohort Information, Daily Issues, and Exit files.
 
-![Figure 3](Examples/Figure%203.jpeg)
+![Figure 3](Figure%203.jpeg)
