@@ -4,5 +4,5 @@ MedPC session TXT files are automatically converted into a custom Excel output f
 
 Khoo, S. Y. (2021). GEToperant: A General Extraction Tool for Med-PC Data. Figshare. doi: 10.6084/m9.figshare.13697851
 
-The **daily_extraction.py** code identifies the new raw files from the raw data folder on Dropbox, where data generated from the experiments is uploaded, by comparing it against existing output file names and then processes it using the appropriate **refactor.py** code
+The **daily_extraction.py** code, ran several times per day using task scheduler, identifies the new raw files from the raw data folder on Dropbox, where data generated from the experiments is uploaded, by comparing against existing output file names and then processes those identified using the appropriate **refactor.py** code.
 
