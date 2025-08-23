@@ -41,15 +41,16 @@ If you use this code (until the paper above is published/this section updated), 
 ## Workflow Diagram
 ![Figure 1: Pipeline overview](Figure%201.jpeg?raw=1)
 
-The sourcecode (SRC) folder contains the code for the different subsections:
-- Preprocessing Operant Data: to extract data from raw MedPC files into structured excel output files
-- Combination in Relational Database: to process excel output and other homogenized files, copy them over to azure and process on azure into a relational database
-- Data Output and Visualization:
+The source code (**SRC**) folder contains the code for the different subsections:
+- (1) **Preprocessing of operant data**: to extract data from raw MedPC files into structured excel output files
+- (2) Integration with other data: does not have any code, but examples and template files are available in the **Examples** folder
+- (3) **Combination in Relational Database**: to process excel output and other homogenized files, copy them over to azure and process on azure into a relational database
+- (4) **Data Output and Visualization**:
   - Behavior Analysis Automation and Graph Generation: to generate a cohort behavior summary excel file and visual behavioral traces based on the excel output file, cohort information file, daily issues and exit file.
   - Interactive Visualization: to generate a web-based dashboard hosted via pythonanywhere providing real-time visualization of Excel output files
   - Backup database: to generate a CSV backup of the relational database from Azure to Dropbox using AzCopy
   - Tableau templates
  
-Examples and template files are available in those specific folders.
+
 
 
