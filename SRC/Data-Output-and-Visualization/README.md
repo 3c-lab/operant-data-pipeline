@@ -4,4 +4,4 @@ The processed data on Dropbox or Azure Datalake can be utilized in various ways 
 - **Behavior analysis automation and graph generation** uses the standardized data on Dropbox to make daily-updated, numeric (CSV) and visual (PDF) cohort summaries of all (operant) data
 - **Backup database** makes a CSV copy of the combined SQL tables available on Dropbox
 
-![Figure 5](Figure%205.jpeg)
+
