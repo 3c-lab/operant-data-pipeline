@@ -1,39 +1,7 @@
-# Preprocessing Operant Data
+## README
 
-This project focuses on preprocessing operant conditioning experimental data.
+MedPC session TXT files are automatically converted into a custom Excel output file using the open-source extraction tool for Med-PC data, [GEToperant] (https://github.com/George-LabX/GEToperant), code from which can be found in the **getoperant_source folder**, profiles for it are in the **getoperant_profiles folder**
 
-## Overview
+Khoo, S. Y. (2021). GEToperant: A General Extraction Tool for Med-PC Data. Figshare. doi: 10.6084/m9.figshare.13697851
 
-This tool processes raw data from operant conditioning experiments to prepare it for analysis. It handles data cleaning, formatting, and basic statistical calculations.
-
-## Features
-
-- Data cleaning and validation
-- Session data aggregation 
-- Response rate calculations
-- Time series formatting
-- Export to analysis-ready formats
-
-## Usage
-
-1. Place raw data files in the `input` directory
-2. Run the preprocessing script:
-   ```
-   python preprocess.py --input input_dir --output output_dir
-   ```
-3. Processed data will be saved to the specified output directory
-
-## Output Format
-
-The processed data includes:
-- Cleaned session data
-- Aggregated response metrics
-- Time-stamped event sequences
-- Summary statistics
-
-## Requirements
-
-- Python 3.7+
-- pandas
-- numpy
-- scipy
+The **daily_extraction.py** code identifies the new raw files from the raw data folder on Dropbox, where data generated from the experiments is uploaded, by comparing it against existing output file names and then processes it using the appropriate **refactor.py** code
