@@ -1,6 +1,17 @@
 
 # Combination in Relational Database
 
+![Figure 4](Figure%204.jpeg)
+
+Several steps are followed to be able to generate a relational database
+
+- **Input-Copy**: data is copied over from Dropbox to Azure Datalake using AzCopy
+- **Input-processing**: data is processed for use on Azure (code loaded in the Azure Databricks, automatically scheduled through Azure Data Factory, and once processed it can then get automatically integrated in an Azure SQL database
+![Azure_Screenshot](Azure_Screenshot.png)
+
+
+
+
 This project demonstrates how to handle combinations in a relational database context.
 
 ## Problem Description
