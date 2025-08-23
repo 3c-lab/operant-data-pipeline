@@ -43,7 +43,7 @@ If you use this code (until the paper above is published/this section updated), 
 
 The source code (**SRC**) folder contains the code for the different subsections:
 - (1) **Preprocessing of operant data**: to extract data from raw MedPC files into structured excel output files
-- (2) Integration with other data: does not have any code, but examples and template files are available in the **Templates** folder
+- (2) Integration with other data: does not have any code, but examples and template files are available in the **Examples** folder
 - (3) **Combination in Relational Database**: to process excel output and other homogenized files, copy them over to azure and process on azure into a relational database
 - (4) **Data Output and Visualization**:
   - Behavior Analysis Automation and Graph Generation: to generate a cohort behavior summary excel file and visual behavioral traces based on the excel output file, cohort information file, daily issues and exit file.
