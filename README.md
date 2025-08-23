@@ -41,7 +41,7 @@ If you use this code (until the paper above is published/this section updated), 
 ## Workflow Diagram
 ![Figure 1: Pipeline overview](Figure%201.jpeg?raw=1)
 
-The source code #(**SRC**) folder contains the code for the different subsections:
+The source code (**SRC**) folder contains the code for the different subsections:
 - (1) **Preprocessing of operant data**: to extract data from raw MedPC files into structured excel output files
 - (2) Integration with other data: does not have any code, but examples and template files are available in the **Templates** folder
 - (3) **Combination in Relational Database**: to process excel output and other homogenized files, copy them over to azure and process on azure into a relational database
