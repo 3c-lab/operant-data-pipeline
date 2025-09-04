@@ -165,7 +165,7 @@ python oxy_behavior_sheet_automation.py
 
 ---
 
-## 4. `oxy_graph_generation.py`
+## 4. `graph_oxy.py`
 
 Generates PDF graphs from the Oxycodone Behavior sheet plus Tail Immersion and Von Frey tests:
 
