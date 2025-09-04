@@ -17,7 +17,6 @@ Sumay Kalra, BSc;
 Alex A. Morgan, BSc; 
 Benjamin Sichel, BSc; 
 Dyar Othman, BSc; 
-Olivier George, PhD; 
 Lieselot L.G. Carrette, PhD<sup>*</sup>
 
 <sup>#</sup>These authors contributed equally.  
