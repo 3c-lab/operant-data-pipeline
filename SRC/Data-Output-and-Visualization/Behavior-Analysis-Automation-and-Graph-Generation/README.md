@@ -5,7 +5,7 @@ This repository contains four Python scripts to automate the creation of behavio
 * **cocaine\_behavior\_sheet\_automation.py**: Builds and populates an Excel "Behavior Data" sheet for cocaine cohorts.
 * **graph\_cocaine.py**: Reads the generated Cocaine Behavior sheet and creates cohort- and rat-level summary graphs in PDF format.
 * **oxy\_behavior\_sheet\_automation.py**: Builds and populates an Excel "Behavior Data" sheet for oxycodone cohorts.
-* **oxy\_graph\_generation.py**: Reads the generated Oxycodone Behavior sheet (plus additional Tail Immersion and Von Frey data) and creates summary graphs in PDF format.
+* **graph\_oxy.py**: Reads the generated Oxycodone Behavior sheet (plus additional Tail Immersion and Von Frey data) and creates summary graphs in PDF format.
 
 ---
 
