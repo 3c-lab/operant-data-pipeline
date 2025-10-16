@@ -31,9 +31,9 @@ If you use this code (until the paper above is published/this section updated), 
 @article{kim2025,
   title={Automated pipeline for operant behavior phenotyping for high-throughput data management, processing, and visualization},
   author={Kim, Sunwoo and Huang, Yunyi and Singla, Uday and Hu, Andrew and Kalra, Sumay and Morgan, Alex A. and Sichel, Benjamin and Othman, Dyar and Carrette, Lieselot L.G.},
-  journal={Journal Name},
+  journal={NPP—Digital Psychiatry and Neuroscience},
   year={2025},
-  doi={10.XXXX/XXXXX}
+  accepted
 }
 ```
 
